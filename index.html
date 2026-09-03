@@ -20,28 +20,30 @@ body.night{
   --line:rgba(241,230,210,.15); --acc:#C79E58; --acc-tx:#1E1B17;
 }
 html,body{height:100%}
+html,body{height:100%;overflow:hidden;overscroll-behavior:none}
 body{background:#3c3a34;font-family:"Archivo",system-ui,-apple-system,sans-serif;font-variation-settings:'wdth' 100,'wght' 400;display:flex;align-items:center;justify-content:center;padding:0}
-#frame{width:100%;max-width:430px;height:100vh;max-height:900px;background:var(--bg);color:var(--tx);display:flex;flex-direction:column;overflow:hidden;position:relative;transition:background .5s,color .5s}
-@media(min-width:520px){#frame{border-radius:20px;box-shadow:0 18px 50px rgba(0,0,0,.35);height:92vh}}
+#frame{width:100%;max-width:430px;height:100vh;height:100dvh;background:var(--bg);color:var(--tx);display:flex;flex-direction:column;overflow:hidden;position:relative;transition:background .5s,color .5s}
+@media(min-width:520px){#frame{border-radius:20px;box-shadow:0 18px 50px rgba(0,0,0,.35);height:min(92vh,900px)}}
 
 /* ---- top ---- */
-#top{padding:14px 18px 0;flex:none}
-.brand{font-variation-settings:'wdth' 66,'wght' 820;font-size:31px;line-height:.98;letter-spacing:-.005em}
-.brand.sm{font-size:23px}
+#top{padding:11px 18px 0;flex:none}
+.brand{font-variation-settings:'wdth' 66,'wght' 820;font-size:26px;line-height:1.02;letter-spacing:-.005em}
+.brand.sm{font-size:22px}
+.mom{color:var(--acc);font-variation-settings:'wdth' 74,'wght' 600;font-size:22px}
 .moment{font-size:15.5px;margin-top:4px;color:var(--tx-dim)}
 .moment b{font-variation-settings:'wdth' 78,'wght' 720;color:var(--acc);font-size:16px}
 #clock{background:none;border:1px solid var(--line);color:var(--tx-faint);font-family:inherit;font-size:10.5px;border-radius:6px;padding:5px 7px;flex:none}
-.search{margin-top:15px;border-radius:32px;padding:6px 6px 6px 20px;height:58px;
+.search{margin-top:9px;border-radius:23px;padding:4px 4px 4px 16px;height:42px;
   display:flex;align-items:center;gap:10px;background:var(--surf)}
-.search input{border:none;background:none;outline:none;font-family:inherit;font-size:16px;
+.search input{border:none;background:none;outline:none;font-family:inherit;font-size:14.5px;
   color:var(--tx);width:100%;font-variation-settings:'wght' 500}
 .search input::placeholder{color:var(--tx-faint)}
-.slens{width:46px;height:46px;border-radius:50%;flex:none;margin-left:auto;
+.slens{width:34px;height:34px;border-radius:50%;flex:none;margin-left:auto;
   background:var(--acc);color:var(--acc-tx);display:flex;align-items:center;justify-content:center;
   box-shadow:0 4px 13px rgba(0,0,0,.2);animation:lens 5s ease-in-out infinite}
 @keyframes lens{0%,84%,100%{transform:scale(1) rotate(0)}
   88%{transform:scale(1.13) rotate(-11deg)}93%{transform:scale(1.06) rotate(7deg)}}
-.mag{width:17px;height:17px;border:2.2px solid currentColor;border-radius:50%;position:relative;flex:none}
+.mag{width:14px;height:14px;border:2px solid currentColor;border-radius:50%;position:relative;flex:none}
 .mag:after{content:"";position:absolute;width:2.2px;height:7px;background:currentColor;right:-2px;bottom:-5px;transform:rotate(-45deg)}
 #cats{display:flex;gap:8px;padding:12px 18px 11px;overflow-x:auto;font-size:13.5px;flex:none;border-bottom:1px solid var(--line);scrollbar-width:none}
 #cats::-webkit-scrollbar{display:none}
@@ -73,9 +75,9 @@ body{background:#3c3a34;font-family:"Archivo",system-ui,-apple-system,sans-serif
 .hero .pz{font-size:16px;color:var(--tx)}
 
 .macro{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.macro a{border-radius:10px;padding:16px 14px;font-variation-settings:'wdth' 76,'wght' 620;font-size:16px;background:var(--surf);color:var(--tx);display:flex;justify-content:space-between;align-items:baseline;cursor:pointer}
+.macro a{border-radius:10px;padding:14px;font-variation-settings:'wdth' 76,'wght' 620;font-size:16px;background:var(--surf);color:var(--tx);display:flex;justify-content:space-between;align-items:baseline;cursor:pointer}
 .macro a span{font-variation-settings:'wdth' 100,'wght' 400;font-size:11.5px;color:var(--tx-faint);font-variant-numeric:tabular-nums}
-.wide{margin-top:12px;font-size:15px;text-align:center;padding:16px;border-radius:9px;border:1px solid var(--line);cursor:pointer;font-variation-settings:'wght' 550}
+.wide{margin-top:10px;font-size:14.5px;text-align:center;padding:14px;border-radius:9px;border:1px solid var(--line);cursor:pointer;font-variation-settings:'wght' 550}
 
 .ch{margin:20px 0 4px}
 .ch h3{font-variation-settings:'wdth' 68,'wght' 750;font-size:24px;line-height:1}
@@ -179,56 +181,75 @@ body.night #modal .sheet{background:#282420}
 .grab{width:40px;height:4px;border-radius:2px;background:var(--tx);opacity:.18;margin:0 auto 16px}
 
 
-.sl2{font-variation-settings:'wdth' 72,'wght' 720;font-size:17px;margin:26px 0 6px}
+
+.qbox{background:var(--surf);border-radius:14px;padding:1px 14px 7px;margin-top:1px}
 .qpages{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;
-  margin:0 -18px;scroll-behavior:smooth}
+  margin:0 -14px;scroll-behavior:smooth}
 .qpages::-webkit-scrollbar{display:none}
-.qpage{flex:0 0 100%;scroll-snap-align:start;padding:0 18px}
+.qpage{flex:0 0 100%;scroll-snap-align:start;padding:0 14px}
+.row.cp{padding:7px 0;align-items:center}
+.row.cp .nm{font-size:15.5px}
+.row.cp .add{width:30px;height:30px;font-size:18px}
+.qbox .row{border-color:rgba(128,120,105,.22)}
+.hdots.qd{margin-top:5px}
+.sl2{font-variation-settings:'wdth' 72,'wght' 720;font-size:16.5px;
+  margin:calc(13px + var(--air,0px)) 0 4px}
+.sl2.hd2{display:flex;justify-content:space-between;align-items:center}
+.qnav{display:flex;gap:7px}
+.qnav b{width:30px;height:30px;border-radius:50%;background:var(--surf);color:var(--tx);
+  display:flex;align-items:center;justify-content:center;font-size:17px;line-height:1;
+  font-variation-settings:'wght' 400;cursor:pointer;transition:opacity .2s}
+.qnav b.off{opacity:.28;pointer-events:none}
 
 /* pannello "adesso" */
-.hwrap{position:relative;margin:8px -18px 0}
-.carousel{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;
-  padding-top:74px;scroll-behavior:smooth}
+.hwrap{position:relative;margin:0 -18px;--spad:42px}
+.carousel{display:flex;height:100%;overflow-x:auto;scroll-snap-type:x mandatory;
+  scrollbar-width:none;scroll-behavior:smooth}
 .carousel::-webkit-scrollbar{display:none}
-.slide{flex:0 0 100%;scroll-snap-align:center;scroll-snap-stop:always;padding:0 26px}
+.slide{flex:0 0 100%;scroll-snap-align:center;scroll-snap-stop:always;padding:0 var(--spad,42px);
+  display:flex;flex-direction:column;justify-content:flex-end}
 
-.heroF{position:relative;background:var(--s2);border-radius:16px;padding:18px;
+.heroF{position:relative;background:var(--s2);border-radius:16px;padding:15px;
   box-shadow:0 3px 14px rgba(25,23,20,.09)}
 body.night .heroF{background:#E4D2B0;color:#26221B;box-shadow:0 6px 26px rgba(0,0,0,.5)}
 .heroF .gl{width:210px;height:210px;right:-22px;top:-84px;
   background:radial-gradient(circle,rgba(var(--g),.34),rgba(var(--g),0) 62%)}
-.heroF img{position:absolute;bottom:74px;z-index:1;
+.heroF img{position:absolute;bottom:62px;z-index:1;
   filter:drop-shadow(0 12px 18px rgba(38,34,27,.3))}
-.heroF .tx{position:relative;z-index:2;width:56%;min-height:96px}
-.heroF.nofoto .tx{width:100%;min-height:76px}
-.heroF .nm{font-size:23px;font-variation-settings:'wdth' 71,'wght' 780;line-height:1.04}
-.heroF .ds{margin-top:6px;font-size:13px;line-height:1.4}
-.heroF .hpz{margin-top:9px;font-size:14px;font-variant-numeric:tabular-nums;opacity:.62}
+.heroF .tx{position:relative;z-index:2;width:56%;min-height:76px}
+.heroF.nofoto .tx{width:100%;min-height:42px}
+.heroF .nm{font-size:22px;font-variation-settings:'wdth' 71,'wght' 780;line-height:1.04}
+.heroF .ds{margin-top:5px;font-size:12.5px;line-height:1.35}
+.heroF .hpz{margin-top:7px;font-size:13.5px;font-variant-numeric:tabular-nums;opacity:.62}
 body.night .heroF .nm,body.night .heroF .hpz{color:#26221B}
 body.night .heroF .ds{color:rgba(38,34,27,.64)}
-.hcta{position:relative;z-index:3;margin-top:14px;border-radius:11px;padding:16px;
-  text-align:center;font-variation-settings:'wdth' 80,'wght' 700;font-size:16px;
+.hcta{position:relative;z-index:3;margin-top:11px;border-radius:11px;padding:13px;
+  text-align:center;font-variation-settings:'wdth' 80,'wght' 700;font-size:15.5px;
   background:#26221B;color:#E4D2B0;cursor:pointer}
 
 /* etichetta adesiva, storta, a cavallo del bordo */
-.sticker{position:absolute;top:-13px;left:14px;z-index:5;transform:rotate(-3.5deg);
-  background:#C0392B;color:#fff;font-size:11.5px;font-variation-settings:'wdth' 88,'wght' 720;
-  letter-spacing:.02em;padding:6px 12px;border-radius:4px;white-space:nowrap;
+.sticker{position:absolute;z-index:8;color:#fff;font-size:11.5px;
+  transition:opacity .2s;pointer-events:none;
+  font-variation-settings:'wdth' 88,'wght' 720;letter-spacing:.02em;
+  padding:6px 12px;border-radius:4px;white-space:nowrap;
   box-shadow:0 3px 9px rgba(0,0,0,.26)}
-body.night .sticker{background:#C0392B}
+.sticker.hide{opacity:0}
+.sticker.s0{top:-13px;left:26px;transform:rotate(-3.5deg);background:#C0392B}
+.sticker.s1{top:-14px;right:28px;transform:rotate(3deg);background:#2E4034}
+.sticker.s2{top:-12px;left:56px;transform:rotate(-1.8deg);background:#A8743A}
 
-/* frecce in vetro, a metà altezza sui bordi */
-.hnav{position:absolute;top:calc(50% + 40px);transform:translateY(-50%);z-index:6;
+/* frecce in vetro, a cavallo del bordo del pannello */
+.hnav{position:absolute;top:50%;left:0;transform:translate(-50%,-50%);z-index:6;
   width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;
-  font-size:20px;line-height:1;cursor:pointer;color:var(--tx);
-  background:rgba(255,255,255,.2);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
-  box-shadow:0 2px 10px rgba(0,0,0,.2),inset 0 0 0 1px rgba(255,255,255,.2);
-  transition:opacity .2s}
-body.night .hnav{background:rgba(20,18,15,.34);color:#F1E6D2}
-.hnav.l{left:2px} .hnav.r{right:2px}
-.hnav.off{opacity:0;pointer-events:none}
-.hdots{display:flex;gap:6px;justify-content:center;margin-top:14px}
-.hdots i{width:6px;height:6px;border-radius:50%;background:var(--tx);opacity:.2}
+  font-size:18px;line-height:1;cursor:pointer;color:#fff;
+  text-shadow:0 1px 3px rgba(0,0,0,.5);
+  background:linear-gradient(155deg,rgba(255,255,255,.36),rgba(255,255,255,.07) 54%,rgba(0,0,0,.12));
+  backdrop-filter:blur(10px) saturate(1.5) brightness(.86);
+  -webkit-backdrop-filter:blur(10px) saturate(1.5) brightness(.86);
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.32),0 4px 12px rgba(0,0,0,.2)}
+.hnav.r{left:auto;right:0;transform:translate(50%,-50%)}
+.hdots{display:flex;gap:5px;justify-content:center;margin-top:calc(6px + var(--air,0px))}
+.hdots i{width:5px;height:5px;border-radius:50%;background:var(--tx);opacity:.2}
 .hdots i.on{opacity:.75}
 
 /* anello dei gin */
@@ -319,7 +340,8 @@ body.night .ghero .gpz{color:rgba(38,34,27,.55)}
   transition:transform .6s cubic-bezier(.62,.02,.9,.5),opacity .6s ease-in}
 
 /* nav */
-#nav{position:relative;z-index:40;background:var(--bg);display:flex;padding:11px 14px 18px;gap:4px;border-top:1px solid var(--line);flex:none}
+#nav{position:relative;z-index:40;background:var(--bg);display:flex;
+  padding:11px 14px calc(14px + env(safe-area-inset-bottom,4px));gap:4px;border-top:1px solid var(--line);flex:none}
 #nav div{position:relative;flex:1;text-align:center;font-size:14px;color:var(--tx-faint);padding:10px 0;font-variation-settings:'wght' 550;cursor:pointer;border-radius:8px}
 #nav div.on{color:var(--acc-tx);background:var(--acc);font-variation-settings:'wght' 700}
 .badge{position:absolute;top:1px;left:50%;margin-left:16px;min-width:20px;height:20px;
@@ -566,19 +588,19 @@ const foto = id => FOTO[id] ? IMGSRC[FOTO[id]] : null;
 const W = {"caffetteria": [1.0, 0.8, 0.2, 0.8, 0, 0, -0.3], "colazione": [1.0, 0.6, -0.3, 0.2, -0.5, -0.8, -0.8], "bibite": [0.3, 0.6, 0.7, 0.7, 0.4, 0.3, 0.2], "sandwich": [-0.3, 0.7, 0.9, 0.4, 0.3, 0.3, 0.3], "piadine": [-0.8, 0.2, 1.0, 0.3, 0.5, 0.7, 0.2], "insalate": [-0.8, 0, 1.0, 0.2, 0.2, 0.5, -0.3], "panini": [-0.3, 0.7, 0.9, 0.4, 0.4, 0.4, 0.3], "frutta": [0.2, 0.3, 0.5, 0.9, 0.5, 0.4, 0.6], "birre": [-0.8, 0, 0.6, 0.3, 0.9, 0.8, 0.6], "aperitivi": [-0.8, 0, 0.3, 0.2, 1.0, 0.7, 0.4], "taglieri": [-0.8, -0.3, 0.3, 0.2, 1.0, 0.9, 0.4], "pinse": [-0.8, 0, 0.6, 0.2, 0.9, 0.9, 0.4], "calice": [-0.8, 0, 0.6, 0.2, 0.8, 0.9, 0.5], "bollicine": [-1, -0.5, 0.4, 0, 0.6, 1.0, 0.5], "bianchi": [-1, -0.5, 0.4, 0, 0.6, 1.0, 0.5], "rossi": [-1, -0.5, 0.4, 0, 0.6, 1.0, 0.5], "cocktail": [-1, -0.3, 0.2, 0.2, 0.8, 1.0, 1.0], "gin": [-1, -0.3, 0, 0, 0.5, 0.9, 1.0], "vodka": [-1, -0.3, 0, 0.1, 0.3, 0.8, 1.0], "rum": [-1, -0.3, 0, 0.1, 0.3, 0.8, 1.0], "tequila": [-1, -0.3, 0, 0.1, 0.3, 0.8, 1.0], "whisky": [-1, -0.3, 0, 0.1, 0.3, 0.8, 1.0], "cognac": [-1, -0.3, 0, 0.2, 0.3, 0.8, 1.0], "grappe": [-1, -0.3, 0, 0.2, 0.3, 0.9, 1.0], "liquori": [-1, -0.3, 0.1, 0.3, 0.3, 0.9, 1.0]};
 /* fasce: nome, macro categorie, hero, righe */
 const BANDS = [
- {h:[6,10], n:"Mattina", l:"Colazione.", m:["caffetteria","colazione","sandwich","bibite"],
+ {h:[6,10], n:"Mattina", p:"di primo mattino", l:"Colazione.", m:["caffetteria","colazione","sandwich","bibite"],
   hot:["spremuta","caffe-roma","brioche"], rows:["caffe","cappuccino","macchiato","muffin","latte-macchiato","te-caldo","cioccolata","ginseng","corretto"]},
- {h:[10,12], n:"Tarda mattina", l:"Pausa.", m:["caffetteria","sandwich","bibite","piadine"],
+ {h:[10,12], n:"Tarda mattina", p:"di tarda mattina", l:"Pausa.", m:["caffetteria","sandwich","bibite","piadine"],
   hot:["super-toast","spremuta","tram-salmone"], rows:["caffe","cappuccino","tram-tonno","tram-cotto","spianata","shakerato","acqua","coca","ginseng"]},
- {h:[12,14.5], n:"Pranzo", l:"Ora di pranzo.", m:["piadine","insalate","panini","bibite"],
+ {h:[12,14.5], n:"Pranzo", p:"a pranzo", l:"Ora di pranzo.", m:["piadine","insalate","panini","bibite"],
   hot:["ins-salmone","pinsa-crudo","porchetta"], rows:["casc-patate","viola-chiara","acqua","ins-mista","cotoletta","casc-mozz","pinsa-margherita","coca","caprese"]},
- {h:[14.5,17], n:"Pomeriggio", l:"Pomeriggio.", m:["caffetteria","frutta","bibite","sandwich"],
+ {h:[14.5,17], n:"Pomeriggio", p:"di pomeriggio", l:"Pomeriggio.", m:["caffetteria","frutta","bibite","sandwich"],
   hot:["macedonia","fragole","shakerato"], rows:["caffe","spremuta","te-freddo","cocomero","ananas","cappuccino","coca","super-toast","cioccolata"]},
- {h:[17,20], n:"Aperitivo", l:"Aperitivo.", m:["aperitivi","birre","taglieri","calice"],
+ {h:[17,20], n:"Aperitivo", p:"all'aperitivo", l:"Aperitivo.", m:["aperitivi","birre","taglieri","calice"],
   hot:["tag-misto","spritz","pinsa-crudo"], rows:["negroni","viola-chiara","pinsa-margherita","hugo","crodino","tag-salumi","cal-prosecco","corona","aperol-cedrata"]},
- {h:[20,22.5], n:"Sera", l:"Sera.", m:["cocktail","piadine","pinse","rossi"],
+ {h:[20,22.5], n:"Sera", p:"di sera", l:"Sera.", m:["cocktail","piadine","pinse","rossi"],
   hot:["tag-nordico","negroni","tag-roma"], rows:["mojito","cal-rosso","pinsa-roma","porchetta","moscow","margarita","tag-misto","viola-rossa","ins-salmone"]},
- {h:[22.5,26], n:"After hour", l:"After hour.", m:["cocktail","gin","liquori","frutta"],
+ {h:[22.5,26], n:"After hour", p:"a notte fonda", l:"After hour.", m:["cocktail","gin","liquori","frutta"],
   hot:["gin-tonic","mojito","margarita"], rows:["negroni","moscow","macedonia","caipirinha","amaro-capo","limoncello","jager","cocomero","montenegro"]}
 ];
 
@@ -649,7 +671,7 @@ function esc(s){ return (s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;"); }
 function rowHTML(p,opt={}){
   const has = inList(p.i);
   const door = !!DOOR[p.i];
-  return `<div class="row" data-open="${p.i}">
+  return `<div class="row${opt.compact?' cp':''}" data-open="${p.i}">
     <div><div class="nm">${esc(p.n)}${p.k?'<span class="mk">CASA</span>':''}${p.l?`<span class="mk alt">${p.l}</span>`:''}</div>
       ${p.d&&!opt.nod?`<div class="ds">${esc(p.d)}</div>`:''}</div>
     <div class="rt"><div class="pz">${priceLabel(p)}</div>
@@ -663,8 +685,7 @@ function renderTop(){
       <div class="moment">Segnala e modificala. Non è un ordine.</div>`;
     return;
   }
-  $top.innerHTML = `<div class="brand">Roma Caffè</div>
-    <div class="moment"><b>${b.n}</b></div>
+  $top.innerHTML = `<div class="brand">Roma Caffè<span class="mom">, ${b.p}</span></div>
     <div class="search"><input id="q" placeholder="Cerca nel menu" value="${esc(S.q)}">
       <span class="slens"><span class="mag"></span></span></div>`;
   const q=document.getElementById("q");
@@ -679,10 +700,12 @@ function renderCats(){
 }
 
 function cardHTML(p,n,k){
-  const f = foto(p.i), sz = SIZE[p.i]||[168,10], door = !!DOOR[p.i];
+  const f = foto(p.i), sz = SIZE[p.i]||[168,10], door = !!DOOR[p.i], lab = LAB[p.i];
   return `<div class="slide"><div class="heroF ${f?'':'nofoto'}" style="--g:${GLOW[p.i]||'150,150,150'}">
-    ${LAB[p.i]?`<span class="sticker">${LAB[p.i]}</span>`:''}
     ${f?`<div class="glow gl"></div><img src="${f}" alt="" style="height:${sz[0]}px;right:${sz[1]}px">`:''}
+    ${lab?`<span class="sticker s${k%3}">${esc(lab)}</span>`:''}
+    ${k>0?'<b class="hnav l" data-slide="-1">‹</b>':''}
+    ${k<n-1?'<b class="hnav r" data-slide="1">›</b>':''}
     <div class="tx" data-open="${p.i}"><div class="nm">${esc(p.n)}</div>
       ${p.d?`<div class="ds">${esc(p.d)}</div>`:''}
       <div class="hpz">${priceLabel(p)}</div></div>
@@ -694,20 +717,22 @@ function homeHTML(){
   const b=band(), hot=b.hot.map(id=>byId[id]).filter(Boolean);
   const items=b.rows.map(id=>byId[id]).filter(Boolean);
   const pages=[]; for(let k=0;k<items.length && pages.length<3;k+=3) pages.push(items.slice(k,k+3));
+  S.hot = hot.map(p=>p.i);
   return `<div class="hwrap">
-    ${hot.length>1?`<b class="hnav l off" data-slide="-1">‹</b><b class="hnav r" data-slide="1">›</b>`:''}
     <div class="carousel" id="car">${hot.map((p,k)=>cardHTML(p,hot.length,k)).join("")}</div>
   </div>
   ${hot.length>1?`<div class="hdots" id="hdots">${hot.map((_,x)=>`<i class="${x?'':'on'}"></i>`).join("")}</div>`:''}
-  <div class="sl2">Oppure…</div>
-  <div class="qpages" id="qp">${pages.map(pg=>
-    `<div class="qpage">${pg.map(p=>rowHTML(p)).join("")}</div>`).join("")}</div>
-  ${pages.length>1?`<div class="hdots" id="qdots">${pages.map((_,x)=>`<i class="${x?'':'on'}"></i>`).join("")}</div>`:''}
+  <div class="sl2 hd2"><span>Oppure…</span>
+    ${pages.length>1?`<span class="qnav"><b data-qs="-1" class="off">‹</b><b data-qs="1">›</b></span>`:''}</div>
+  <div class="qbox">
+    <div class="qpages" id="qp">${pages.map(pg=>
+      `<div class="qpage">${pg.map(p=>rowHTML(p,{nod:1,compact:1})).join("")}</div>`).join("")}</div>
+    ${pages.length>1?`<div class="hdots qd" id="qdots">${pages.map((_,x)=>`<i class="${x?'':'on'}"></i>`).join("")}</div>`:''}
+  </div>
   <div class="sl2">Sfoglia</div>
   <div class="macro">${b.m.map(c=>`<a data-cat="${c}">${C[c].n} <span>${catCount(c)}</span></a>`).join("")}</div>
   <div class="wide" data-go="carta">Guarda la carta completa</div>`;
 }
-
 function cartaHTML(){
   const k = S.cat || catOrder()[0]; S.cat = k;
   return `<div class="ch"><h3>${C[k].n}</h3></div>${catItems(k).map(p=>rowHTML(p)).join("")}`;
@@ -897,21 +922,21 @@ function renderView(){
   renderCats();
   const qp=document.getElementById("qp");
   if(qp) qp.addEventListener("scroll",()=>{
-    const k=Math.round(qp.scrollLeft/qp.clientWidth), d=document.getElementById("qdots");
+    const step=qp.children[0]?qp.children[0].offsetWidth:qp.clientWidth;
+    const k=Math.round(qp.scrollLeft/step), d=document.getElementById("qdots");
     if(d) [...d.children].forEach((x,n)=>x.classList.toggle("on",n===k));
+    document.querySelectorAll("[data-qs]").forEach(a=>a.classList.toggle("off",
+      parseInt(a.dataset.qs)<0 ? k===0 : k>=qp.children.length-1));
   },{passive:true});
   const c=document.getElementById("car");
-  if(c) c.addEventListener("scroll",()=>{
-    const k=Math.round(c.scrollLeft/c.clientWidth), last=c.children.length-1;
-    const hd=document.getElementById("hdots");
-    if(hd) [...hd.children].forEach((x,n)=>x.classList.toggle("on",n===k));
-    document.querySelectorAll(".hnav").forEach(a=>{
-      const dir=parseInt(a.dataset.slide);
-      a.classList.toggle("off", dir<0 ? k===0 : k>=last);
-    });
-  },{passive:true});
+  if(c){ layout();
+    c.addEventListener("scroll",()=>{
+      const k=Math.round(c.scrollLeft/c.clientWidth);
+      const hd=document.getElementById("hdots");
+      if(hd) [...hd.children].forEach((x,n)=>x.classList.toggle("on",n===k));
+    },{passive:true});
+  }
 }
-
 function renderNav(){
   const n=listQty();
   $nav.innerHTML=["carta","home","lista"].map(s=>
@@ -928,11 +953,51 @@ function renderWaiter(){
     <div class="close" data-closew="1">Chiudi</div>`;
 }
 
+function layout(){
+  const hw=$view.querySelector(".hwrap"); if(!hw) return;
+  $view.style.setProperty("--air","0px");
+
+  /* 1 · il carosello è alto quanto serve: pannello + sola sporgenza della foto */
+  let need=0;
+  hw.querySelectorAll(".heroF").forEach(p=>{
+    const img=p.querySelector("img");
+    let over=20;                                   // aria per l'etichetta adesiva
+    if(img){
+      const b=parseFloat(getComputedStyle(img).bottom)||0;
+      over=Math.max(over, img.offsetHeight+b-p.offsetHeight+8);
+    }
+    need=Math.max(need, p.offsetHeight+over);
+  });
+  hw.style.height=Math.ceil(need)+"px";
+
+  /* 2 · lo spazio che avanza va negli stacchi fra le sezioni, quanto basta
+        perché il taglio dello schermo cada a metà di una fila di "Sfoglia":
+        prima si prova la seconda fila, poi la prima */
+  const macro=$view.querySelector(".macro");
+  if(macro){
+    const cut=$view.clientHeight, base=$view.getBoundingClientRect().top-$view.scrollTop;
+    let extra=0;
+    for(const t of [macro.children[2], macro.children[0]]){
+      if(!t) continue;
+      const r=t.getBoundingClientRect();
+      const gap=cut-(r.top-base+r.height/2);
+      if(gap>0){ extra=gap; break; }
+    }
+    if(extra>0){
+      const slots=$view.querySelectorAll(".hdots:not(.qd), .sl2").length||1;
+      $view.style.setProperty("--air", Math.min(16, Math.floor(extra/slots))+"px");
+    }
+  }
+}
+addEventListener("resize", ()=>layout(), {passive:true});
+if(document.fonts&&document.fonts.ready) document.fonts.ready.then(()=>layout());
+
 function paint(keepScroll){
   document.body.classList.toggle("night", isNight());
   const y = keepScroll ? $view.scrollTop : 0;
   renderTop(); renderView(); renderNav();
   document.documentElement.style.setProperty("--navh", $nav.offsetHeight+"px");
+  layout();
   renderModal();
   if(keepScroll) $view.scrollTop = y;
 }
@@ -979,13 +1044,13 @@ document.addEventListener("click", e=>{
   if(el=t("back")){ S.prod=null; paint(); return; }
   if(el=t("cat")){ S.sec="carta"; S.cat = el.dataset.cat; S.q=""; S.prod=null; S.modal=null; S.ring=null; paint(); return; }
   if(el=t("go")){ S.sec=el.dataset.go; S.cat=null; S.q=""; S.prod=null; S.modal=null; S.ring=null; S.conto=false; paint(); return; }
+  if(el=t("qs")){ e.stopPropagation();
+    const q=document.getElementById("qp");
+    if(q) q.scrollLeft += parseInt(el.dataset.qs)*q.clientWidth;
+    return; }
   if(el=t("slide")){ e.stopPropagation();
-    const qp=document.getElementById("qp");
-  if(qp) qp.addEventListener("scroll",()=>{
-    const k=Math.round(qp.scrollLeft/qp.clientWidth), d=document.getElementById("qdots");
-    if(d) [...d.children].forEach((x,n)=>x.classList.toggle("on",n===k));
-  },{passive:true});
-  const c=document.getElementById("car"); if(c) c.scrollLeft += parseInt(el.dataset.slide)*c.clientWidth;
+    const c=document.getElementById("car");
+    if(c) c.scrollLeft += parseInt(el.dataset.slide)*c.clientWidth;
     return; }
   if(el=t("ringk")){ const card=el;
     if(!card.classList.contains("on")){ e.stopPropagation(); centerCard(card); return; } }
