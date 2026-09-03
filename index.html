@@ -65,8 +65,10 @@ body{background:#3c3a34;font-family:"Archivo",system-ui,-apple-system,sans-serif
 .add:active{transform:scale(.85)}
 .add.done{background:var(--surf2);color:var(--tx)}
 .arrow{width:33px;height:33px;display:flex;align-items:center;justify-content:center;font-size:22px;color:var(--tx-faint)}
-.mk.alt{background:transparent;color:var(--tx-dim);border:1px solid var(--line);padding:1px 5px}
-.mk{font-size:9.5px;letter-spacing:.09em;padding:2px 6px;border-radius:3px;margin-left:6px;font-variation-settings:'wght' 600;background:var(--acc);color:var(--acc-tx);vertical-align:2px}
+.mk{font-size:10px;letter-spacing:.07em;padding:2px 7px;border-radius:3px;margin-left:6px;
+  font-variation-settings:'wdth' 88,'wght' 650;background:var(--tx);color:var(--bg);
+  vertical-align:2px;white-space:nowrap;box-shadow:0 1px 3px rgba(0,0,0,.18)}
+.mk.c{color:#fff}
 
 .hero{border-radius:12px;padding:15px;background:var(--surf);margin-top:4px;cursor:pointer}
 .hero .nm{font-size:20px;font-variation-settings:'wdth' 74,'wght' 700}
@@ -339,6 +341,36 @@ body.night .ghero .gpz{color:rgba(38,34,27,.55)}
   font-variation-settings:'wght' 800;box-shadow:0 5px 16px rgba(0,0,0,.34);
   transition:transform .6s cubic-bezier(.62,.02,.9,.5),opacity .6s ease-in}
 
+/* nastro dei consigli, in fondo sopra la navigazione */
+#tips{flex:none;display:none;overflow:hidden;border-top:1px solid var(--line);
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent);
+  mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent)}
+#tips.on{display:block}
+#tips .tk{display:flex;width:max-content;animation:tipscroll linear infinite}
+#tips .tk b{font-size:14px;line-height:1;padding:13px 0;white-space:nowrap;
+  color:var(--tx-dim);font-variation-settings:'wdth' 94,'wght' 520}
+#tips .tk b i{font-style:normal;color:var(--tx-faint);padding:0 22px}
+@keyframes tipscroll{to{transform:translateX(-50%)}}
+@media(prefers-reduced-motion:reduce){#tips .tk{animation:none}}
+
+/* suggerimento: una domanda, due risposte */
+.sheet.ring.nudge{padding:20px 20px 18px}
+.nlab{font-size:10.5px;letter-spacing:.12em;color:var(--tx-faint)}
+.ntitle{font-variation-settings:'wdth' 70,'wght' 780;font-size:23px;line-height:1.06;margin-top:7px}
+.ntx{font-size:13.5px;line-height:1.5;color:var(--tx-dim);margin-top:8px}
+.nrow{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;
+  background:var(--surf);border-radius:10px;padding:12px 14px;margin-top:14px}
+.nrow .nnm{font-variation-settings:'wdth' 76,'wght' 640;font-size:16.5px;line-height:1.15}
+.nrow .ds{margin-top:2px}
+.nrow .pz{padding-top:2px}
+body.night .nrow{background:#38332B}
+.nbtn{display:flex;gap:8px;margin-top:14px}
+.nbtn b{flex:1;text-align:center;padding:14px 8px;border-radius:10px;cursor:pointer;
+  font-size:14.5px;font-variation-settings:'wdth' 88,'wght' 600;
+  border:1px solid var(--line);color:var(--tx-dim)}
+.nbtn b.y{border-color:transparent;background:var(--tx);color:var(--bg);
+  font-variation-settings:'wdth' 84,'wght' 700}
+
 /* nav */
 #nav{position:relative;z-index:40;background:var(--bg);display:flex;
   padding:11px 14px calc(14px + env(safe-area-inset-bottom,4px));gap:4px;border-top:1px solid var(--line);flex:none}
@@ -357,6 +389,7 @@ body.night .ghero .gpz{color:rgba(38,34,27,.55)}
   <div id="top"></div>
   <div id="cats" style="display:none"></div>
   <div id="view"></div>
+  <div id="tips"></div>
   <div id="nav"></div>
   <div id="modal"></div>
   <div id="waiter"></div>
@@ -405,9 +438,9 @@ const P = [
  {i:"cioccolata",c:"caffetteria",n:"Cioccolata calda",p:3.5,d:"Densa, da cucchiaino.",l:"D'INVERNO"},
  {i:"shakerato",c:"caffetteria",n:"Caffè shakerato",p:4,d:"Shakerato a mano, senza panna."},
  {i:"shake-corretto",c:"caffetteria",n:"Caffè shakerato corretto",p:5},
- {i:"spremuta",c:"caffetteria",n:"Spremuta d'arancia",p:5,d:"Due arance e mezza, spremute quando la ordini."},
+ {i:"spremuta",c:"caffetteria",n:"Spremuta d'arancia",p:5,d:"Due arance e mezza, spremute quando la ordini.",l:"AL MOMENTO"},
  // colazione
- {i:"brioche",c:"colazione",n:"Brioche",p:2,s:"cornetto croissant"},
+ {i:"brioche",c:"colazione",n:"Brioche",p:2,s:"cornetto croissant",l:"DAL FORNO"},
  {i:"muffin",c:"colazione",n:"Muffin",p:2.5},
  // bibite
  {i:"acqua",c:"bibite",n:"Acqua",v:[["1 litro",3.5],["0,5 litri",2]],d:"Naturale o frizzante."},
@@ -416,7 +449,7 @@ const P = [
  {i:"te-freddo",c:"bibite",n:"Tè freddo",p:4,d:"Limone o pesca.",s:"the freddo"},
  {i:"redbull",c:"bibite",n:"Red Bull",p:4,s:"redbull energy"},
  {i:"schweppes",c:"bibite",n:"Schweppes",p:3.5,d:"Lemon o tonica."},
- {i:"fever",c:"bibite",n:"Fever-Tree",p:3,d:"La tonica premium.",s:"fevertree tonica"},
+ {i:"fever",c:"bibite",n:"Fever-Tree",p:3,d:"La tonica premium.",s:"fevertree tonica",l:"PER IL GIN"},
  {i:"cedrata",c:"bibite",n:"Cedrata",p:3.5},
  {i:"ginger",c:"bibite",n:"Ginger beer",p:3.5},
  {i:"aranciata",c:"bibite",n:"Aranciata",p:3.5,d:"Dolce o amara."},
@@ -424,7 +457,7 @@ const P = [
  {i:"succo",c:"bibite",n:"Succo di frutta",p:3.5},
  // aperitivi
  {i:"spritz",c:"aperitivi",n:"Spritz",p:8,d:"Aperol, prosecco, soda.",l:"IL PIÙ ORDINATO"},
- {i:"hugo",c:"aperitivi",n:"Hugo",p:9,d:"Prosecco, sciroppo di sambuco, menta."},
+ {i:"hugo",c:"aperitivi",n:"Hugo",p:9,d:"Prosecco, sciroppo di sambuco, menta.",l:"PIÙ LEGGERO"},
  {i:"negroni",c:"aperitivi",n:"Negroni",p:9,d:"Bitter, vermouth rosso, gin. In parti uguali."},
  {i:"sbagliato",c:"aperitivi",n:"Negroni sbagliato",p:9,d:"Come il Negroni, con lo spumante al posto del gin."},
  {i:"americano",c:"aperitivi",n:"Americano",p:9,d:"Bitter, vermouth rosso, soda."},
@@ -438,7 +471,7 @@ const P = [
  {i:"campari-soda",c:"aperitivi",n:"Campari soda",p:5},
  // birre
  {i:"viola-chiara",c:"birre",n:"Viola chiara",p:6,d:"Alla spina, birrificio di Rimini.",l:"SPINA"},
- {i:"viola-rossa",c:"birre",n:"Viola rossa",p:6,d:"Alla spina."},
+ {i:"viola-rossa",c:"birre",n:"Viola rossa",p:6,d:"Alla spina.",l:"DI RIMINI"},
  {i:"viola-bott",c:"birre",n:"Viola",p:6,d:"In bottiglia."},
  {i:"corona",c:"birre",n:"Corona",p:6},
  {i:"tennents",c:"birre",n:"Tennent's",p:6},
@@ -451,12 +484,12 @@ const P = [
  {i:"cal-bianco",c:"calice",n:"Bianco fermo",p:7,d:"Al calice."},
  {i:"cal-rosso",c:"calice",n:"Rosso",p:7,d:"Al calice."},
  {i:"cal-prosecco",c:"calice",n:"Prosecco",p:7,d:"Al calice."},
- {i:"cal-franciacorta",c:"calice",n:"Franciacorta",p:8,d:"Al calice."},
+ {i:"cal-franciacorta",c:"calice",n:"Franciacorta",p:8,d:"Al calice.",l:"PER BRINDARE"},
  {i:"cal-franciacorta-rose",c:"calice",n:"Franciacorta rosé",p:8,d:"Al calice."},
  // bollicine
- {i:"bellavista-mini",c:"bollicine",n:"Bellavista mini",p:25},
+ {i:"bellavista-mini",c:"bollicine",n:"Bellavista mini",p:25,l:"MEZZA BOTTIGLIA"},
  {i:"valdobbiadene",c:"bollicine",n:"Valdobbiadene",p:35},
- {i:"trentodoc",c:"bollicine",n:"Trento DOC",p:40},
+ {i:"trentodoc",c:"bollicine",n:"Trento DOC",p:40,l:"DI MONTAGNA"},
  {i:"cadelbosco",c:"bollicine",n:"Ca' del Bosco",p:50},
  {i:"bellavista",c:"bollicine",n:"Bellavista",p:50},
  {i:"franciacorta-rose",c:"bollicine",n:"Franciacorta rosé",p:50},
@@ -464,28 +497,28 @@ const P = [
  {i:"dom",c:"bollicine",n:"Dom Pérignon",p:250,s:"perignon champagne",d:"La bottiglia più importante della carta."},
  // bianchi
  {i:"chardonnay",c:"bianchi",n:"Chardonnay",p:25},
- {i:"vermentino",c:"bianchi",n:"Vermentino",p:25},
+ {i:"vermentino",c:"bianchi",n:"Vermentino",p:25,l:"COL PESCE"},
  {i:"passerina",c:"bianchi",n:"Passerina",p:25},
  {i:"pecorino",c:"bianchi",n:"Pecorino",p:25},
  {i:"pinot-grigio",c:"bianchi",n:"Pinot grigio",p:25},
  {i:"ribolla",c:"bianchi",n:"Ribolla gialla",p:25},
- {i:"gewurz",c:"bianchi",n:"Gewürztraminer",p:25,s:"gewurztraminer traminer"},
+ {i:"gewurz",c:"bianchi",n:"Gewürztraminer",p:25,s:"gewurztraminer traminer",l:"AROMATICO"},
  // rossi
- {i:"sangiovese",c:"rossi",n:"Sangiovese",p:25},
+ {i:"sangiovese",c:"rossi",n:"Sangiovese",p:25,l:"DI ROMAGNA"},
  {i:"aulente",c:"rossi",n:"Aulente rosso",p:25},
  {i:"chianti",c:"rossi",n:"Chianti",p:25},
  {i:"morellino",c:"rossi",n:"Morellino",p:25},
  {i:"nero-avola",c:"rossi",n:"Nero d'Avola",p:25},
- {i:"primitivo",c:"rossi",n:"Primitivo",p:25},
+ {i:"primitivo",c:"rossi",n:"Primitivo",p:25,l:"STRUTTURATO"},
  {i:"montepulciano",c:"rossi",n:"Montepulciano",p:25},
  // cocktail
  {i:"gin-tonic",c:"cocktail",n:"Gin tonic",p:9,d:"Otto gin in carta. Ti aiutiamo a scegliere.",s:"gintonic gin lemon"},
  {i:"vodka-tonic",c:"cocktail",n:"Vodka lemon o tonic",p:9},
- {i:"mojito",c:"cocktail",n:"Mojito",p:10,d:"Menta pestata a mano, lime fresco."},
+ {i:"mojito",c:"cocktail",n:"Mojito",p:10,d:"Menta pestata a mano, lime fresco.",l:"PESTATO"},
  {i:"caipiroska",c:"cocktail",n:"Caipiroska",p:10,s:"capiroska"},
  {i:"caipirinha",c:"cocktail",n:"Caipirinha",p:10},
  {i:"cubalibre",c:"cocktail",n:"Cuba libre pestato",p:10,s:"cubalibre"},
- {i:"moscow",c:"cocktail",n:"Moscow mule",p:10,d:"Vodka, ginger beer, lime. Nel rame."},
+ {i:"moscow",c:"cocktail",n:"Moscow mule",p:10,d:"Vodka, ginger beer, lime. Nel rame.",l:"NEL RAME"},
  {i:"pina",c:"cocktail",n:"Piña colada",p:10,s:"pina colada"},
  {i:"margarita",c:"cocktail",n:"Margarita",p:10,d:"Tequila, triple sec, lime. Bordo salato."},
  {i:"london-ice",c:"cocktail",n:"London ice",p:10},
@@ -495,7 +528,7 @@ const P = [
  {i:"gin-hendricks",c:"gin",n:"Hendrick's",p:7,d:"Cetriolo e rosa. Il più profumato della carta.",s:"hendriks"},
  {i:"gin-mare",c:"gin",n:"Mare",p:7,d:"Mediterraneo: oliva, rosmarino, basilico, timo."},
  {i:"gin-roku",c:"gin",n:"Roku",p:8,d:"Giapponese, delicato. Sakura, tè verde, yuzu."},
- {i:"gin-monkey",c:"gin",n:"Monkey 47",p:9,d:"Quarantasette botaniche. Intenso, per chi sa cosa vuole."},
+ {i:"gin-monkey",c:"gin",n:"Monkey 47",p:9,d:"Quarantasette botaniche. Intenso, per chi sa cosa vuole.",l:"47 BOTANICHE"},
  {i:"gin-muerte",c:"gin",n:"Muerte",p:10},
  {i:"gin-elephant",c:"gin",n:"Elephant",p:10,d:"Botaniche africane, terroso e fruttato."},
  // altri distillati
@@ -505,12 +538,12 @@ const P = [
  {i:"matusalem",c:"rum",n:"Matusalem",p:8,s:"matuzalem"},
  {i:"donpapa",c:"rum",n:"Don Papa",p:9},
  {i:"bumbum",c:"rum",n:"Bum Bum",p:10},
- {i:"zacapa",c:"rum",n:"Zacapa",p:10},
+ {i:"zacapa",c:"rum",n:"Zacapa",p:10,l:"DA FINE PASTO"},
  {i:"patron-silver",c:"tequila",n:"Patrón silver",p:8},
  {i:"patron-anejo",c:"tequila",n:"Patrón añejo",p:9,s:"anejo"},
  {i:"donjulio",c:"tequila",n:"Don Julio",p:10},
  {i:"chivas",c:"whisky",n:"Chivas Regal",p:8},
- {i:"lagavulin",c:"whisky",n:"Lagavulin",p:9,d:"Torbato.",s:"lagavullin"},
+ {i:"lagavulin",c:"whisky",n:"Lagavulin",p:9,d:"Torbato.",s:"lagavullin",l:"TORBATO"},
  {i:"oban",c:"whisky",n:"Oban",p:10},
  {i:"macallan",c:"whisky",n:"Macallan",p:10},
  {i:"vecchia-romagna",c:"cognac",n:"Vecchia Romagna",p:6,d:"Brandy italiano."},
@@ -527,11 +560,11 @@ const P = [
  {i:"jager",c:"liquori",n:"Jägermeister",p:5,s:"jagermeister jager"},
  {i:"limoncello",c:"liquori",n:"Limoncello",p:5,d:"Fatto in casa.",l:"DOPO CENA"},
  // piadine
- {i:"porchetta",c:"piadine",n:"Porchetta, scamorza e rucola",p:7.5,d:"Porchetta di Ariccia, scamorza affumicata."},
+ {i:"porchetta",c:"piadine",n:"Porchetta, scamorza e rucola",p:7.5,d:"Porchetta di Ariccia, scamorza affumicata.",l:"LA PIÙ PRESA"},
  {i:"casc-mozz",c:"piadine",n:"Cascione mozzarella e pomodoro",p:5,s:"piadina"},
  {i:"casc-patate",c:"piadine",n:"Cascione patate e salsiccia",p:5,s:"piadina",d:"Il cascione più ordinato."},
  {i:"casc-cotto",c:"piadine",n:"Cascione cotto e mozzarella",p:5,s:"piadina"},
- {i:"casc-verde",c:"piadine",n:"Cascione verde",p:5,s:"piadina"},
+ {i:"casc-verde",c:"piadine",n:"Cascione verde",p:5,s:"piadina",l:"VEGETARIANO"},
  {i:"stracchino",c:"piadine",n:"Stracchino e rucola",p:5,s:"piadina"},
  {i:"cotto-mozz",c:"piadine",n:"Cotto e mozzarella",p:6,s:"piadina"},
  {i:"salame-pec",c:"piadine",n:"Salame e pecorino",p:6,s:"piadina"},
@@ -540,14 +573,14 @@ const P = [
  {i:"alici",c:"piadine",n:"Alici, rucola e cipolla di Tropea",p:6.5,s:"piadina",d:"Alici del Cantabrico, cipolla di Tropea."},
  {i:"nutella",c:"piadine",n:"Nutella",p:5,s:"piadina dolce"},
  // insalate
- {i:"ins-salmone",c:"insalate",n:"Insalata di salmone",p:11,d:"Salmone affumicato, avocado, misticanza."},
+ {i:"ins-salmone",c:"insalate",n:"Insalata di salmone",p:11,d:"Salmone affumicato, avocado, misticanza.",l:"PIATTO UNICO"},
  {i:"prosc-melone",c:"insalate",n:"Prosciutto e melone",p:8},
- {i:"caprese",c:"insalate",n:"Caprese",p:9},
+ {i:"caprese",c:"insalate",n:"Caprese",p:9,l:"VEGETARIANA"},
  {i:"ins-mista",c:"insalate",n:"Insalata mista",p:9},
  {i:"ins-pollo",c:"insalate",n:"Insalata di pollo",p:11},
  {i:"ins-tonno",c:"insalate",n:"Insalata di tonno",p:11},
  // panini
- {i:"cotoletta",c:"panini",n:"Cotoletta, insalata e pomodori",p:8,s:"panino"},
+ {i:"cotoletta",c:"panini",n:"Cotoletta, insalata e pomodori",p:8,s:"panino",l:"SOSTANZIOSO"},
  {i:"hotdog",c:"panini",n:"Hot dog",p:6.5,s:"panino"},
  {i:"speck",c:"panini",n:"Speck e gorgonzola",p:7,s:"panino"},
  {i:"salmone-phila",c:"panini",n:"Salmone, Philadelphia ed erba cipollina",p:7,s:"panino philadelfia"},
@@ -557,14 +590,14 @@ const P = [
  {i:"tag-nordico",c:"taglieri",n:"Tagliere nordico",p:18,d:"Salmone e affumicati, il più ricco.",l:"DA DIVIDERE"},
  {i:"tag-veg",c:"taglieri",n:"Tagliere vegetariano",p:15},
  {i:"tag-salumi",c:"taglieri",n:"Tagliere salumi e formaggi",p:15},
- {i:"tag-roma",c:"taglieri",n:"Tagliere Roma",p:15,k:1,d:"La selezione della casa, cambia ogni settimana."},
+ {i:"tag-roma",c:"taglieri",n:"Tagliere Roma",p:15,k:1,d:"La selezione della casa, cambia ogni settimana.",l:"CAMBIA SPESSO"},
  // pinse
- {i:"pinsa-roma",c:"pinse",n:"Pinsa Roma",p:10,k:1,d:"L'impasto della casa, lievitato 48 ore."},
+ {i:"pinsa-roma",c:"pinse",n:"Pinsa Roma",p:10,k:1,d:"L'impasto della casa, lievitato 48 ore.",l:"48 ORE"},
  {i:"pinsa-margherita",c:"pinse",n:"Margherita",p:7,s:"pinsa pizza"},
  {i:"pinsa-rucola",c:"pinse",n:"Mozzarella, rucola e pomodorini",p:7,s:"pinsa"},
  {i:"pinsa-crudo",c:"pinse",n:"Crudo e burrata",p:8,s:"pinsa"},
  // sandwich
- {i:"super-toast",c:"sandwich",n:"Super toast",p:5,d:"Doppio, con prosciutto cotto e formaggio."},
+ {i:"super-toast",c:"sandwich",n:"Super toast",p:5,d:"Doppio, con prosciutto cotto e formaggio.",l:"IN DUE MINUTI"},
  {i:"tram-cotto",c:"sandwich",n:"Tramezzino cotto",p:4,s:"tramezzino"},
  {i:"tram-tonno",c:"sandwich",n:"Tramezzino tonno",p:4,s:"tramezzino"},
  {i:"tram-salmone",c:"sandwich",n:"Tramezzino salmone",p:5,s:"tramezzino"},
@@ -573,7 +606,9 @@ const P = [
  {i:"macedonia",c:"frutta",n:"Macedonia",p:8,d:"Frutta tagliata al momento.",l:"D'ESTATE"},
  {i:"fragole",c:"frutta",n:"Fragole e panna",p:7,d:"Panna montata a parte."},
  {i:"ananas",c:"frutta",n:"Ananas",p:6},
- {i:"cocomero",c:"frutta",n:"Cocomero",p:7,s:"anguria",d:"Tagliato a fette spesse.",l:"D'ESTATE"}
+ {i:"cocomero",c:"frutta",n:"Cocomero",p:7,s:"anguria",d:"Tagliato a fette spesse.",l:"D'ESTATE"},
+ /* non compare in carta: si guadagna, non si ordina */
+ {i:"tag-omaggio",c:"taglieri",n:"Tagliere piccolo",p:0,x:1,d:"Offerto dalla casa con due drink."}
 ];
 
 const ORDER = {"gin": ["gin-monkey", "gin-hendricks", "gin-mare", "gin-bulldog", "gin-malfy", "gin-roku", "gin-muerte", "gin-elephant"], "cocktail": ["gin-tonic", "moscow", "mojito", "caipirinha", "caipiroska", "cubalibre", "vodka-tonic", "pina", "margarita", "london-ice"], "whisky": ["lagavulin", "chivas", "oban", "macallan"], "rum": ["zacapa", "matusalem", "donpapa", "bumbum"], "tequila": ["donjulio", "patron-silver", "patron-anejo"], "vodka": ["beluga", "greygoose", "belvedere"], "aperitivi": ["spritz", "negroni", "hugo", "sbagliato", "americano", "bitter-anal", "crodino", "campari-soda", "analcolico-frutta", "mojito-anal", "aperol-cedrata", "bellini", "rossini"], "birre": ["viola-chiara", "viola-rossa", "corona", "tennents", "ceres", "birra-anal", "viola-bott", "paulaner", "franziskaner", "ichnusa"], "bibite": ["coca", "fanta", "acqua", "succo", "aranciata", "chinotto", "cedrata", "schweppes", "fever", "ginger", "te-freddo", "redbull"], "taglieri": ["tag-roma", "tag-misto", "tag-veg", "tag-salumi", "tag-nordico"], "piadine": ["porchetta", "casc-mozz", "casc-patate", "casc-cotto", "casc-verde", "stracchino", "nutella", "cotto-mozz", "salame-pec", "alici", "crudo-strac", "salame-picc"], "insalate": ["ins-salmone", "prosc-melone", "caprese", "ins-mista", "ins-pollo", "ins-tonno"], "frutta": ["macedonia", "ananas", "cocomero", "fragole"], "liquori": ["borghetti", "amaro-capo", "montenegro", "nocino", "limoncello", "jager"]};
@@ -617,6 +652,25 @@ const PAIR_CAT = {
 const PAIR_P = { spritz:"tag-misto", "gin-tonic":"tag-nordico", caffe:"brioche",
   cappuccino:"brioche", "tag-misto":"cal-rosso", "tag-nordico":"cal-franciacorta" };
 
+/* cosa conta come drink per la soglia del tagliere offerto */
+const DRINK = {aperitivi:1, cocktail:1, birre:1, calice:1, gin:1, bollicine:1};
+const OMAGGIO = { id:"tag-omaggio", min:2, bands:[4,5] };   // aperitivo e sera
+
+/* nastro dei consigli: b = fasce in cui ha senso, assente = sempre */
+const TIPS = [
+  {t:"Con due drink il tagliere piccolo lo offriamo noi.", b:[4,5]},
+  {t:"Il Caffè Roma è la nostra miscela, tostata per il banco."},
+  {t:"Le brioche arrivano dal forno ogni mattina alle sei.", b:[0,1]},
+  {t:"La spremuta si fa al momento: quella pronta non ce l'abbiamo.", b:[0,1,2,3]},
+  {t:"Le piadine si fanno sul momento, da mezzogiorno alle undici di sera.", b:[2,3,4,5]},
+  {t:"I taglieri sono da dividere: uno basta in due."},
+  {t:"La Viola è di un birrificio di Rimini, e ce l'abbiamo alla spina."},
+  {t:"Il tagliere Roma cambia ogni settimana: chiedi cosa c'è oggi.", b:[4,5]},
+  {t:"Dietro al banco ci sono otto gin. Se non sai quale, chiedilo.", b:[4,5,6]},
+  {t:"Il limoncello è fatto in casa e si beve ghiacciato.", b:[5,6]},
+  {t:"La cucina resta accesa fino alle undici di sera.", b:[4,5]}
+];
+
 /* ============ STATO ============ */
 const byId = {}; P.forEach(p=>byId[p.i]=p);
 Object.keys(ORDER).forEach(c=>{
@@ -629,16 +683,17 @@ P.forEach(p=>{ if(p._r===undefined) p._r=P.indexOf(p); });
    Ovunque il prezzo segnali una fascia, si ordina dal più alto al più basso. */
 const KEEP = {caffetteria:1, bibite:1};
 const catItems = c => {
-  const arr = P.filter(p=>p.c===c);
+  const arr = P.filter(p=>p.c===c && !p.x);
   return KEEP[c] ? arr.sort((a,b)=>a._r-b._r)
                  : arr.sort((a,b)=> price(b)-price(a) || a._r-b._r);
 };
 const _p = new URLSearchParams(location.search).get("ora");
-let S = { sec:"home", cat:null, prod:null, modal:null, ring:null, ringDet:null, just:null, q:"", list:[], override:_p!==null?parseFloat(_p):null, conto:false, hinted:false };
+let S = { sec:"home", cat:null, prod:null, modal:null, ring:null, ringDet:null, just:null, q:"", list:[], override:_p!==null?parseFloat(_p):null, conto:false, hinted:false, nudge:null, seen:{} };
 
 const price = p => p.v ? p.v[0][1] : p.p;
 const DOOR = { "gin-tonic":"gin" };
 const priceLabel = p => {
+  if(p.p===0) return "offerto";
   if(DOOR[p.i]){ const k=P.filter(x=>x.c===DOOR[p.i]).map(x=>price(x)); return "da "+eur(Math.min(...k)); }
   return p.v ? "da "+eur(Math.min(...p.v.map(x=>x[1]))) : eur(p.p);
 };
@@ -649,11 +704,30 @@ function isNight(){ const h=nowH(); return h>=19 || h<6; }
 function bandIdx(){ return BANDS.indexOf(band()); }
 function catOrder(){ const k=bandIdx();
   return Object.keys(C).sort((a,b)=>((W[b]||[])[k]||0)-((W[a]||[])[k]||0)); }
-function catCount(c){ return P.filter(p=>p.c===c).length; }
+function catCount(c){ return P.filter(p=>p.c===c && !p.x).length; }
 function pairFor(p){ const id = PAIR_P[p.i] || PAIR_CAT[p.c]; return (id && id!==p.i) ? byId[id] : null; }
 function inList(id){ return S.list.find(x=>x.id===id); }
 function listQty(){ return S.list.reduce((a,x)=>a+x.q,0); }
 function listTotal(){ return S.list.reduce((a,x)=>a+x.q*price(byId[x.id]),0); }
+function qtyWhere(f){ return S.list.reduce((a,x)=>a+(f(byId[x.id])?x.q:0),0); }
+const drinkQty = () => qtyWhere(p=>DRINK[p.c]);
+const foodQty  = () => qtyWhere(p=>C[p.c].t==="food");
+const omaggioOn = () => OMAGGIO.bands.includes(bandIdx()) && drinkQty()>=OMAGGIO.min;
+
+/* Il barista bravo consiglia una volta sola, al momento della decisione.
+   Perciò: mai al primo articolo, mai se c'è già qualcosa da mangiare,
+   e una volta sola per tipo in tutta la sessione. */
+function nudgeFor(id){
+  const p=byId[id];
+  if(!S.seen.omaggio && omaggioOn() && !inList(OMAGGIO.id)){
+    S.seen.omaggio=1; return {k:"omaggio", p:byId[OMAGGIO.id]};
+  }
+  if(!S.seen.pair && listQty()>=2 && !foodQty() && C[p.c].t!=="food"){
+    const pair=pairFor(p);
+    if(pair && C[pair.c].t==="food"){ S.seen.pair=1; return {k:"pair", p:pair, from:p}; }
+  }
+  return null;
+}
 
 function addTo(id){ const e=inList(id); if(e) e.q++; else S.list.push({id,q:1});
   S.just=id; clearTimeout(S._jt);
@@ -668,11 +742,22 @@ const $top=document.getElementById("top"), $cats=document.getElementById("cats")
 
 function esc(s){ return (s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;"); }
 
+/* le etichette prendono i colori degli adesivi: rosso = spinta,
+   verde = provenienza e casa, ocra = tutto il resto */
+const MKC = {
+  "IL PIÙ ORDINATO":"#C0392B","LA PIÙ PRESA":"#C0392B","DA DIVIDERE":"#C0392B",
+  "PIATTO UNICO":"#C0392B","SOSTANZIOSO":"#C0392B",
+  "SPINA":"#2E4034","DI RIMINI":"#2E4034","DI ROMAGNA":"#2E4034","DAL FORNO":"#2E4034",
+  "AL MOMENTO":"#2E4034","VEGETARIANO":"#2E4034","VEGETARIANA":"#2E4034","COL PESCE":"#2E4034"
+};
+const mkCol = l => MKC[l] || "#A8743A";
+
 function rowHTML(p,opt={}){
   const has = inList(p.i);
   const door = !!DOOR[p.i];
   return `<div class="row${opt.compact?' cp':''}" data-open="${p.i}">
-    <div><div class="nm">${esc(p.n)}${p.k?'<span class="mk">CASA</span>':''}${p.l?`<span class="mk alt">${p.l}</span>`:''}</div>
+    <div><div class="nm">${esc(p.n)}${p.k?'<span class="mk">CASA</span>':''}${
+      p.l?`<span class="mk c" style="background:${mkCol(p.l)}">${p.l}</span>`:''}</div>
       ${p.d&&!opt.nod?`<div class="ds">${esc(p.d)}</div>`:''}</div>
     <div class="rt"><div class="pz">${priceLabel(p)}</div>
     ${door?'<div class="arrow">›</div>':`<div class="add ${just(p.i)?'just':''}" data-add="${p.i}">${just(p.i)?'✓':'+'}</div>`}</div></div>`;
@@ -742,7 +827,7 @@ function searchHTML(){
   const q=S.q.toLowerCase().trim().replace(/\s+/g," ");
   const norm = s => s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"");
   const nq = norm(q);
-  const res = P.filter(p => norm(p.n).includes(nq) || norm(p.s||"").includes(nq) || norm(C[p.c].n).includes(nq));
+  const res = P.filter(p => !p.x && (norm(p.n).includes(nq) || norm(p.s||"").includes(nq) || norm(C[p.c].n).includes(nq)));
   if(!res.length) return `<div class="empty">Nessun risultato per «${esc(S.q)}».<br>Prova con un'altra parola.</div>`;
   return `<div class="sl">${res.length} RISULTAT${res.length===1?'O':'I'}</div>${res.map(p=>rowHTML(p)).join("")}`;
 }
@@ -771,12 +856,15 @@ function listaHTML(){
       <div class="qty">${x.q}×</div><div><div class="nm">${esc(p.n)}</div></div></div>
       <div class="rt"><div class="minus" data-rm="${p.i}">−</div><div class="add" data-add="${p.i}">+</div></div></div>`;
   }).join(""):"";
-  const showHint = bev.length>=3 && food.length===0;
+  const spetta = omaggioOn() && !inList(OMAGGIO.id);
+  const showHint = !spetta && bev.length>=3 && food.length===0;
   return grp("DA BERE",bev)+grp("DA MANGIARE",food)
+    + (spetta?`<div class="hint" data-add="${OMAGGIO.id}" style="cursor:pointer">Con due drink il tagliere piccolo è compreso.
+        <b style="text-decoration:underline;text-underline-offset:3px">Aggiungilo</b></div>`:"")
     + (showHint?`<div class="hint">Solo da bere. Un tagliere si divide bene.</div>`:"")
     + `<div class="conto" data-conto="1">${S.conto?"Nascondi il conto":"Quanto viene?"}</div>`
     + (S.conto?`<div class="contobox">${S.list.map(x=>{const p=byId[x.id];
-        return `<div class="r"><span>${x.q}× ${esc(p.n)}</span><span>${eur(x.q*price(p))}</span></div>`}).join("")}
+        return `<div class="r"><span>${x.q}× ${esc(p.n)}</span><span>${p.p===0?"offerto":eur(x.q*price(p))}</span></div>`}).join("")}
         <div class="tt"><span>Totale</span><span>${eur(listTotal())}</span></div></div>`:"")
     + `<div class="conto" data-waiter="1">Mostra al cameriere</div>`;
 }
@@ -904,11 +992,45 @@ function modalHTML(p){
     ${pair?`<div class="pairbox"><div class="lab">CI STA BENE</div>${rowHTML(pair)}</div>`:''}
   </div>`;
 }
+function nudgeHTML(n){
+  const p=n.p, om=n.k==="omaggio";
+  return `<div class="bk" data-nudgeno="1"></div><div class="sheet ring nudge">
+    <div class="nlab">${om?"CI SPETTA":"DAL BANCO"}</div>
+    <div class="ntitle">${om?"Il tagliere piccolo lo offriamo noi."
+                           :"Ci mettiamo qualcosa da mangiare?"}</div>
+    <div class="ntx">${om?"Con due drink è compreso. Lo segniamo in lista?"
+      :`Con ${esc(n.from.n).toLowerCase()} al banco di solito va ${esc(p.n).toLowerCase()}.`}</div>
+    <div class="nrow"><div>
+      <div class="nnm">${esc(p.n)}</div>
+      ${p.d?`<div class="ds">${esc(p.d)}</div>`:''}</div>
+      <div class="pz">${priceLabel(p)}</div></div>
+    <div class="nbtn">
+      <b data-nudgeno="1">${om?"Magari dopo":"No, grazie"}</b>
+      <b class="y" data-nudgeyes="${p.i}">${om?"Sì, grazie":"Aggiungi"}</b></div>
+  </div>`;
+}
 function renderModal(){
   const m=document.getElementById("modal");
+  if(S.nudge){
+    if(!m.querySelector(".nudge")) m.innerHTML=nudgeHTML(S.nudge);
+    m.classList.add("on"); return;
+  }
   if(S.modal){ m.innerHTML=modalHTML(S.modal); m.classList.add("on"); return; }
   if(S.ring){ renderRing(); return; }
   m.classList.remove("on"); m.innerHTML="";
+}
+
+function renderTips(){
+  const el=document.getElementById("tips");
+  if(S.sec!=="carta"||S.prod||S.q){ el.className=""; el.innerHTML=""; return; }
+  const k=bandIdx();
+  const list=TIPS.filter(t=>!t.b||t.b.includes(k));
+  if(!list.length){ el.className=""; el.innerHTML=""; return; }
+  const half=list.map(t=>`<b>${t.t}<i>·</i></b>`).join("");
+  el.className="on";
+  el.innerHTML=`<div class="tk">${half}${half}</div>`;
+  const tk=el.firstChild;
+  tk.style.animationDuration = Math.round(tk.scrollWidth/2/26) + "s";
 }
 
 function renderView(){
@@ -919,7 +1041,7 @@ function renderView(){
   else if(S.sec==="carta") h=cartaHTML();
   else h=listaHTML();
   $view.innerHTML=h;
-  renderCats();
+  renderCats(); renderTips();
   const qp=document.getElementById("qp");
   if(qp) qp.addEventListener("scroll",()=>{
     const step=qp.children[0]?qp.children[0].offsetWidth:qp.clientWidth;
@@ -1032,11 +1154,17 @@ function flyToList(from){
 document.addEventListener("click", e=>{
   const t = id => e.target.closest(`[data-${id}]`);
   let el;
-  if(el=t("add")){ e.stopPropagation(); const from=el.getBoundingClientRect(); addTo(el.dataset.add);
-    if(S.ring){ paint(true); }
-    else paint(true);
+  if(el=t("add")){ e.stopPropagation();
+    const from=el.getBoundingClientRect();
+    addTo(el.dataset.add);
+    const n=nudgeFor(el.dataset.add);
+    paint(true);
     flyToList(from);
+    if(n) setTimeout(()=>{ S.nudge=n; S.ring=null; S.modal=null; renderModal(); }, 640);
     return; }
+  if(el=t("nudgeyes")){ e.stopPropagation();
+    addTo(el.dataset.nudgeyes); S.nudge=null; paint(true); return; }
+  if(el=t("nudgeno")){ S.nudge=null; renderModal(); return; }
   if(el=t("rm")){ e.stopPropagation(); removeFrom(el.dataset.rm); paint(true); return; }
   if(el=t("conto")){ S.conto=!S.conto; renderView(); return; }
   if(el=t("waiter")){ renderWaiter(); $w.classList.add("on"); return; }
