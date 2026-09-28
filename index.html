@@ -383,77 +383,121 @@ body.night .nrow{background:#38332B}
 .badge.pop{animation:pop .45s cubic-bezier(.3,1.5,.5,1)}
 @keyframes pop{0%{transform:scale(1)}35%{transform:scale(1.55)}100%{transform:scale(1)}}
 
-/* ---- match: la scheda in home ---- */
-.mtile{display:flex;align-items:center;gap:12px;background:var(--acc);color:var(--acc-tx);
-  border-radius:12px;padding:13px 15px;margin-top:12px;cursor:pointer;
-  box-shadow:0 4px 14px rgba(0,0,0,.10)}
-.mtile .mi{font-size:19px;flex:none;line-height:1}
-.mtile .mt{font-variation-settings:'wdth' 74,'wght' 720;font-size:15.5px;line-height:1.1}
-.mtile .msub{font-size:12.5px;opacity:.68;margin-top:2px}
-.mtile .mgo{margin-left:auto;font-size:19px;opacity:.5;flex:none}
+/* ---- match: la sezione ---- */
+#frame.match #top,#frame.match #cats,#frame.match #tips{display:none}
+#frame.match #view{padding:0;overflow:hidden}
+#nav div.heart{flex:.5;display:flex;align-items:center;justify-content:center;padding:9px 0}
+#nav div.heart svg{display:block}
 
-/* ---- match: il mazzo ---- */
-#modal .sheet.deck{position:absolute;inset:0;left:0;right:0;top:0;bottom:0;border-radius:0;
-  background:var(--bg);display:flex;flex-direction:column;padding:12px 16px 16px;max-height:none;
-  user-select:none;-webkit-user-select:none;
-  /* niente slideup ereditato da .sheet: il pannello si ridisegna a ogni carta e
-     rifarebbe la salita otto volte. Sta fermo lui, si muovono le carte. */
-  animation:none}
-@keyframes cardin{from{opacity:0;transform:translateY(16px) scale(.97)}to{opacity:1;transform:none}}
-.qcard,.ocard{animation:cardin .24s cubic-bezier(.2,.8,.2,1)}
-.dkhead{display:flex;align-items:center;gap:10px;flex:none}
-.dkx{width:30px;height:30px;border-radius:50%;background:var(--surf);color:var(--tx);
-  display:flex;align-items:center;justify-content:center;font-size:14px;cursor:pointer;flex:none}
+.deck{height:100%;display:flex;flex-direction:column;padding:12px 14px 14px;
+  user-select:none;-webkit-user-select:none}
+.dkhead{display:flex;align-items:baseline;gap:10px;flex:none;padding:0 4px}
+.dknwrap{position:relative}
 .dkn{font-size:13.5px;color:var(--tx-dim);font-variation-settings:'wdth' 88,'wght' 520}
-.dkn b{color:var(--acc);font-variation-settings:'wdth' 80,'wght' 760;font-size:16px}
+.dkn b{color:var(--acc);font-variation-settings:'wdth' 80,'wght' 780;font-size:19px;
+  display:inline-block}
+.dkn b.pop{animation:numpop .34s cubic-bezier(0.23,1,0.32,1)}
+@keyframes numpop{0%{transform:scale(1)}30%{transform:scale(1.32)}100%{transform:scale(1)}}
+/* il calo sale VERSO il numero, non oltre: partendo dalla riga del contatore
+   uscirebbe dal bordo alto del telaio e non lo vedrebbe nessuno */
+.dkdelta{position:absolute;left:3px;top:20px;font-size:13.5px;color:var(--acc);opacity:0;
+  font-variation-settings:'wdth' 82,'wght' 720;pointer-events:none;white-space:nowrap;
+  animation:deltaup .95s cubic-bezier(0.23,1,0.32,1) forwards}
+@keyframes deltaup{0%{opacity:0;transform:translateY(8px)}22%{opacity:1}
+  100%{opacity:0;transform:translateY(-9px)}}
+.dkrip{margin-left:auto;font-size:12px;color:var(--tx-faint);cursor:pointer;
+  border-bottom:1px solid var(--line)}
 .dkstep{margin-left:auto;font-size:11px;letter-spacing:.1em;color:var(--tx-faint)}
-.dkbar{height:3px;background:var(--line);border-radius:2px;overflow:hidden;margin-top:10px;flex:none}
+.dkbar{height:3px;background:var(--line);border-radius:2px;overflow:hidden;margin:10px 4px 0;flex:none}
 .dkbar i{display:block;height:100%;background:var(--acc);border-radius:2px;
-  transition:width .5s cubic-bezier(.2,.8,.2,1)}
-.dkstage{flex:1;position:relative;display:flex;align-items:center;justify-content:center;min-height:0}
+  transition:width .42s cubic-bezier(0.23,1,0.32,1)}
 
-.qcard{position:absolute;left:0;right:0;background:var(--surf);border-radius:20px;
-  padding:30px 24px 26px;box-shadow:0 12px 34px rgba(0,0,0,.16);touch-action:none;
-  cursor:grab;user-select:none;will-change:transform;
-  min-height:206px;display:flex;flex-direction:column;justify-content:center}
+/* la pila: quante carte restano, viste da sotto */
+.dkstage{flex:1;position:relative;margin-top:12px;min-height:0}
+.gh{position:absolute;inset:0 0 34px 0;background:var(--surf);border-radius:22px;
+  box-shadow:0 8px 24px rgba(0,0,0,.10);
+  /* ancorate al bordo basso: se scalassero dal centro, la riduzione
+     risucchierebbe lo spostamento e la pila non si vedrebbe */
+  transform-origin:bottom center}
+.gh.g2{transform:scale(.90) translateY(28px);opacity:.38}
+.gh.g1{transform:scale(.95) translateY(14px);opacity:.66}
+
+.qcard{position:absolute;inset:0 0 34px 0;background:var(--surf);border-radius:22px;
+  padding:30px 28px 34px;box-shadow:0 14px 40px rgba(0,0,0,.20);overflow:hidden;
+  touch-action:none;cursor:grab;will-change:transform;
+  display:flex;flex-direction:column;justify-content:flex-end;
+  animation:cardin .26s cubic-bezier(0.23,1,0.32,1)}
 .qcard:active{cursor:grabbing}
-.qic{font-size:30px;line-height:1}
-.qd{font-variation-settings:'wdth' 70,'wght' 780;font-size:25px;line-height:1.08;margin-top:16px}
-.qn{font-size:14px;color:var(--tx-dim);margin-top:9px;line-height:1.45}
-.qtag{position:absolute;top:18px;right:18px;font-size:11.5px;letter-spacing:.12em;
-  padding:5px 10px;border-radius:5px;opacity:0;transition:opacity .12s;
-  font-variation-settings:'wdth' 88,'wght' 700}
-.qcard.yes .qtag.t-si{opacity:1}
-.qcard.nope .qtag.t-no{opacity:1}
-.qcard.love .qtag.t-ad{opacity:1}
-.qtag.t-si{background:#2E7D4F;color:#fff}
-.qtag.t-no{background:#A3402F;color:#fff;right:auto;left:18px}
-.qtag.t-ad{background:var(--acc);color:var(--acc-tx);left:50%;transform:translateX(-50%);right:auto}
+@keyframes cardin{from{opacity:0;transform:scale(.95) translateY(7px)}to{opacity:1;transform:none}}
 
-.dkhint{text-align:center;font-size:11.5px;color:var(--tx-faint);margin-top:10px;flex:none}
+/* il velo che tinge la carta mentre la tiri */
+.tint{position:absolute;inset:0;opacity:0;pointer-events:none}
+.tint.t-si{background:linear-gradient(200deg,rgba(46,125,79,.34),rgba(46,125,79,.05))}
+.tint.t-no{background:linear-gradient(160deg,rgba(163,64,47,.34),rgba(163,64,47,.05))}
+.tint.t-ad{background:linear-gradient(0deg,rgba(199,158,88,.40),rgba(199,158,88,.04))}
+
+/* il timbro */
+.stamp{position:absolute;top:26px;font-size:29px;letter-spacing:.05em;padding:6px 15px;
+  border-radius:9px;border:3px solid currentColor;opacity:0;pointer-events:none;
+  font-variation-settings:'wdth' 84,'wght' 820;will-change:transform,opacity}
+/* il timbro sta dalla parte OPPOSTA al verso in cui tiri: trascinando a
+   destra il fianco destro della carta esce dal telaio, e un timbro li'
+   non lo vedrebbe nessuno. E' il motivo per cui su Tinder stanno cosi'. */
+.stamp.t-si{left:26px;color:#2E7D4F;transform:rotate(-13deg) scale(.7)}
+.stamp.t-no{right:26px;color:#A3402F;transform:rotate(13deg) scale(.7)}
+.stamp.t-ad{top:36%;left:50%;margin-left:-80px;color:var(--acc);transform:rotate(-4deg) scale(.7)}
+
+.qic{font-size:44px;line-height:1;position:relative}
+.qd{font-variation-settings:'wdth' 68,'wght' 800;font-size:34px;line-height:1.04;
+  margin-top:20px;position:relative;letter-spacing:-.012em}
+.qn{font-size:15.5px;color:var(--tx-dim);margin-top:12px;line-height:1.45;position:relative}
+
+/* i cuori che scappano su quando adori: stanno nel palco, non nella carta,
+   se no volerebbero via insieme a lei */
+.burst{position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:6}
+.burst i{position:absolute;bottom:36%;font-size:25px;opacity:0;font-style:normal;
+  color:var(--acc);animation:fly .9s cubic-bezier(0.23,1,0.32,1) forwards}
+@keyframes fly{0%{opacity:0;transform:translateY(0) scale(.5)}
+  20%{opacity:1}100%{opacity:0;transform:translateY(-180px) scale(1.15)}}
+
+.dkhint{text-align:center;font-size:11.5px;color:var(--tx-faint);margin-top:11px;flex:none}
 .dkhint b{font-variation-settings:'wght' 700;color:var(--tx-dim)}
-.dkbtn{display:flex;gap:9px;margin-top:11px;flex:none}
-.dkbtn b{flex:1;text-align:center;padding:14px 8px;border-radius:10px;cursor:pointer;
-  font-variation-settings:'wdth' 76,'wght' 640;font-size:14.5px;
-  border:1px solid var(--line);background:var(--surf);color:var(--tx)}
+.dkbtn{display:flex;gap:9px;margin-top:10px;flex:none}
+.dkbtn b{flex:1;text-align:center;padding:15px 8px;border-radius:11px;cursor:pointer;
+  font-variation-settings:'wdth' 76,'wght' 640;font-size:15px;
+  border:1px solid var(--line);background:var(--surf);color:var(--tx);
+  transition:transform .13s cubic-bezier(0.23,1,0.32,1)}
+.dkbtn b:active{transform:scale(.95)}
 .dkbtn b.y{background:var(--acc);color:var(--acc-tx);border-color:transparent}
-.dkbtn b.up{background:none;color:var(--acc);border-color:var(--acc);flex:.85}
+.dkbtn b.up{background:none;color:var(--acc);border-color:var(--acc);flex:.9}
 
 /* ---- match: la risposta ---- */
-.ocard{position:relative;width:100%;background:var(--surf);border-radius:20px;
-  padding:22px;box-shadow:0 12px 34px rgba(0,0,0,.16);overflow:hidden;text-align:left}
-.ocard .oglow{position:absolute;right:-30px;top:-40px;width:220px;height:220px;border-radius:50%;
-  background:radial-gradient(circle,rgba(var(--g),.42),transparent 68%);filter:blur(12px)}
-.ocard img{position:absolute;right:6px;top:-6px;object-fit:contain;pointer-events:none}
-.olab{font-size:10.5px;letter-spacing:.14em;color:var(--tx-faint);position:relative}
-.onm{font-variation-settings:'wdth' 68,'wght' 800;font-size:29px;line-height:1.02;
-  margin-top:7px;position:relative;max-width:62%}
-.opz{font-variation-settings:'wdth' 82,'wght' 640;font-size:17px;color:var(--acc);
-  margin-top:7px;position:relative}
-.owhy{font-size:13.5px;line-height:1.5;color:var(--tx-dim);margin-top:13px;
-  position:relative;max-width:66%}
-.ovuoto{text-align:center;color:var(--tx-dim);font-size:15px;line-height:1.5;padding:0 12px}
+.ocard{position:absolute;inset:0 0 34px 0;background:var(--surf);border-radius:22px;
+  padding:26px 28px 34px;box-shadow:0 14px 40px rgba(0,0,0,.20);overflow:hidden;
+  display:flex;flex-direction:column;justify-content:flex-end;
+  animation:cardin .3s cubic-bezier(0.23,1,0.32,1)}
+.ocard .oglow{position:absolute;right:-40px;top:-70px;width:310px;height:310px;border-radius:50%;
+  background:radial-gradient(circle,rgba(var(--g),.46),transparent 68%);filter:blur(14px)}
+.ocard img{position:absolute;right:0;top:5%;object-fit:contain;pointer-events:none}
+.olab{font-size:11px;letter-spacing:.15em;color:var(--tx-faint);position:relative}
+.onm{font-variation-settings:'wdth' 66,'wght' 820;font-size:37px;line-height:1;
+  margin-top:9px;position:relative;letter-spacing:-.015em}
+.opz{font-variation-settings:'wdth' 82,'wght' 680;font-size:20px;color:var(--acc);
+  margin-top:9px;position:relative}
+.owhy{font-size:14.5px;line-height:1.5;color:var(--tx-dim);margin-top:14px;
+  position:relative;max-width:76%}
+.ovuoto{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  text-align:center;color:var(--tx-dim);font-size:15.5px;line-height:1.55;padding:0 26px}
 
+/* chi ha chiesto meno movimento tiene i colori e perde gli spostamenti */
+@media(prefers-reduced-motion:reduce){
+  .qcard,.ocard{animation:none}
+  .burst{display:none}
+  .dkn b.pop{animation:none}
+  .dkbar i{transition:none}
+  .dkdelta{animation:deltafade .8s linear forwards}
+  @keyframes deltafade{0%,68%{opacity:1}100%{opacity:0}}
+}
 /* ---- match: il pannello del manager ---- */
 #modal .sheet.mgr{position:absolute;inset:0;border-radius:0;background:var(--bg);
   display:flex;flex-direction:column;padding:12px 0 16px;max-height:none}
@@ -895,10 +939,6 @@ function homeHTML(){
     <div class="carousel" id="car">${hot.map((p,k)=>cardHTML(p,hot.length,k)).join("")}</div>
   </div>
   ${hot.length>1?`<div class="hdots" id="hdots">${hot.map((_,x)=>`<i class="${x?'':'on'}"></i>`).join("")}</div>`:''}
-  <div class="mtile" data-mopen="1"><span class="mi">✨</span>
-    <div><div class="mt">Non sai cosa prendere?</div>
-    <div class="msub">Quattro domande e ti dico io</div></div>
-    <span class="mgo">›</span></div>
   <div class="sl2 hd2"><span>Oppure…</span>
     ${pages.length>1?`<span class="qnav"><b data-qs="-1" class="off">‹</b><b data-qs="1">›</b></span>`:''}</div>
   <div class="qbox">
@@ -1107,11 +1147,6 @@ function renderModal(){
     if(m.dataset.mk!=="mgr"){ m.innerHTML=mgrHTML(); m.dataset.mk="mgr"; }
     m.classList.add("on"); return;
   }
-  if(S.mk){
-    const key = S.mk.out ? "out"+S.mk.alt : "q"+(S.mk.q?S.mk.q.id:"-")+S.mk.fatte.length;
-    if(m.dataset.mk!==key){ m.innerHTML=deckHTML(); m.dataset.mk=key; bindSwipe(); }
-    m.classList.add("on"); return;
-  }
   m.dataset.mk="";
   if(S.nudge){
     if(!m.querySelector(".nudge")) m.innerHTML=nudgeHTML(S.nudge);
@@ -1141,8 +1176,10 @@ function renderView(){
   else if(S.q.trim()) h=searchHTML();
   else if(S.sec==="home") h=homeHTML();
   else if(S.sec==="carta") h=cartaHTML();
+  else if(S.sec==="match"){ if(!S.mk) matchInit(); h=deckHTML(); }
   else h=listaHTML();
   $view.innerHTML=h;
+  if(S.sec==="match" && S.mk){ bindSwipe(); S.mk.delta=0; }
   renderCats(); renderTips();
   const qp=document.getElementById("qp");
   if(qp) qp.addEventListener("scroll",()=>{
@@ -1163,8 +1200,10 @@ function renderView(){
 }
 function renderNav(){
   const n=listQty();
-  $nav.innerHTML=["carta","home","lista"].map(s=>
-    `<div class="${S.sec===s?'on':''}" data-go="${s}">${s[0].toUpperCase()+s.slice(1)}${
+  $nav.innerHTML=["carta","home","match","lista"].map(s=>
+    s==="match"
+      ? `<div class="${S.sec===s?'on':''} heart" data-go="match" title="Consigliami">${CUORE}</div>`
+      : `<div class="${S.sec===s?'on':''}" data-go="${s}">${s[0].toUpperCase()+s.slice(1)}${
       s==="lista"&&n?`<span class="badge">${n}</span>`:""}</div>`).join("");
 }
 
@@ -1218,6 +1257,7 @@ if(document.fonts&&document.fonts.ready) document.fonts.ready.then(()=>layout())
 
 function paint(keepScroll){
   document.body.classList.toggle("night", isNight());
+  document.getElementById("frame").classList.toggle("match", S.sec==="match");
   const y = keepScroll ? $view.scrollTop : 0;
   renderTop(); renderView(); renderNav();
   document.documentElement.style.setProperty("--navh", $nav.offsetHeight+"px");
@@ -1352,7 +1392,7 @@ const ET = {
 
 /* -- 5. il motore ---------------------------------------------------------- */
 const PESO = { no:-1.1, si:1, adoro:2.4 };
-const MAX_CARTE = 4;
+const MAX_CARTE = 3;
 
 function matchInit(){
   const pool = apertoOra();
@@ -1384,12 +1424,13 @@ function matchNext(){
 }
 function matchRisposta(r){
   const m=S.mk, q=m.q; if(!q||m.out) return;
-  const w=PESO[r];
+  const w=PESO[r], prima=m.pool.length;
   m.pool.forEach(p=>m.punti.set(p.i, m.punti.get(p.i) + (q.p(p) ? w : -w*0.55)));
   /* il mazzo si stringe davvero, ma non si svuota mai */
   const vuole = r!=="no";
   const resta = m.pool.filter(p=>q.p(p)===vuole);
   if(resta.length>=3) m.pool=resta;
+  m.delta = prima - m.pool.length;
   m.dim.add(q.dim); m.fatte.push({q:q.id,r}); m.q=null;
   matchNext();
 }
@@ -1425,73 +1466,128 @@ function perche(p){
 }
 
 /* -- 6. il disegno --------------------------------------------------------- */
+const CUORE = '<svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>';
+const RIDOTTO = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
 function deckHTML(){
   const m=S.mk;
   if(m.out) return deckOutHTML();
-  const q=m.q, n=m.pool.length;
-  return `<div class="sheet deck">
-    <div class="dkhead"><b class="dkx" data-mclose="1">✕</b>
-      <div class="dkn"><b>${n}</b> ${n===1?"cosa possibile":"cose possibili"}</div>
-      <div class="dkstep">${m.fatte.length+1} / ${MAX_CARTE}</div></div>
+  const q=m.q, n=m.pool.length, sotto=MAX_CARTE-m.fatte.length-1, d=m.delta;
+  return `<div class="deck">
+    <div class="dkhead">
+      <div class="dknwrap">
+        <div class="dkn"><b class="${d?'pop':''}">${n}</b> ${n===1?"cosa possibile":"cose possibili"}</div>
+        ${d?`<div class="dkdelta">−${d}</div>`:''}
+      </div>
+      <div class="dkstep">${m.fatte.length+1} / ${MAX_CARTE}</div>
+    </div>
     <div class="dkbar"><i style="width:${Math.round(m.fatte.length/MAX_CARTE*100)}%"></i></div>
     <div class="dkstage">
+      ${sotto>1?'<div class="gh g2"></div>':''}
+      ${sotto>0?'<div class="gh g1"></div>':''}
       <div class="qcard" id="qcard">
-        <span class="qtag t-si">SÌ</span><span class="qtag t-no">NO</span><span class="qtag t-ad">ADORO</span>
+        <div class="tint t-si"></div><div class="tint t-no"></div><div class="tint t-ad"></div>
+        <span class="stamp t-si">SÌ</span><span class="stamp t-no">NO</span><span class="stamp t-ad">ADORO</span>
         <div class="qic">${q.ic}</div>
         <div class="qd">${esc(q.d)}</div>
         <div class="qn">${esc(q.n)}</div>
       </div>
+      <div class="burst" id="burst"></div>
     </div>
-    <div class="dkhint">Trascina la carta · <b>sinistra</b> no · <b>destra</b> sì · <b>su</b> adoro</div>
+    <div class="dkhint">Trascina · <b>sinistra</b> no · <b>destra</b> sì · <b>su</b> adoro</div>
     <div class="dkbtn"><b data-mans="no">No</b><b class="up" data-mans="adoro">Adoro</b><b class="y" data-mans="si">Sì</b></div>
   </div>`;
 }
 function deckOutHTML(){
-  const m=S.mk, p=m.out[m.alt];
-  if(!p) return `<div class="sheet deck">
-    <div class="dkhead"><b class="dkx" data-mclose="1">✕</b><div class="dkn">Niente da fare</div></div>
-    <div class="dkstage"><div class="ovuoto">A quest’ora, con queste risposte, non resta niente.<br>Chiedi al banco: fanno prima loro.</div></div>
-    <div class="dkbtn"><b class="y" data-mopen="1">Riprova</b></div></div>`;
-  const f=foto(p.i), sz=SIZE[p.i]||[150,8], altri=Math.min(m.out.length,5);
-  return `<div class="sheet deck">
-    <div class="dkhead"><b class="dkx" data-mclose="1">✕</b>
-      <div class="dkn">Ecco cosa ti darei</div>
-      <div class="dkstep">${m.alt+1} / ${altri}</div></div>
+  const m=S.mk, p=m.out[m.alt], quanti=Math.min(m.out.length,5);
+  const testa=`<div class="dkhead"><div class="dkn">Ecco cosa ti darei</div>
+      <div class="dkrip" data-mrestart="1">Ricomincia</div></div>
+    <div class="dkbar"><i style="width:100%"></i></div>`;
+  if(!p) return `<div class="deck">${testa}<div class="dkstage">
+      <div class="ovuoto">A quest’ora, con queste risposte, non resta niente.<br>Chiedi al banco: fanno prima loro.</div>
+    </div><div class="dkbtn"><b class="y" data-mrestart="1">Riprova</b></div></div>`;
+  /* nella risposta la foto vale il doppio che nella giostra: e' l'unica
+     immagine di tutto il giro, e ha una carta intera per starci */
+  const f=foto(p.i), sz=SIZE[p.i]||[190,8], alt=Math.round(sz[0]*1.7);
+  return `<div class="deck">${testa}
     <div class="dkstage"><div class="ocard" style="--g:${GLOW[p.i]||'150,150,150'}">
-      ${f?`<div class="oglow"></div><img src="${f}" alt="" style="height:${sz[0]}px">`:''}
-      <div class="olab">${(marg(p)?"DALLA CASA":"PER TE")}</div>
+      ${f?`<div class="oglow"></div><img src="${f}" alt="" style="height:${alt}px">`:''}
+      <div class="olab">${marg(p)?"DALLA CASA":"PER TE"}</div>
       <div class="onm">${esc(p.n)}</div>
       <div class="opz">${priceLabel(p)}</div>
       <div class="owhy">${esc(perche(p))}</div>
     </div></div>
+    <div class="dkhint">${m.alt+1} di ${quanti} che ti starebbero bene</div>
     <div class="dkbtn"><b data-malt="1">Un altro</b><b class="y" data-madd="${p.i}">Aggiungi</b></div>
   </div>`;
 }
-/* il trascinamento: pointer events, cosi' vale uguale per dito e per mouse */
+/* i cuori: vivono nel palco, cosi' restano quando la carta vola via */
+function cuori(){
+  const b=document.getElementById("burst"); if(!b) return;
+  b.innerHTML=["♥","✦","♥","✧","♥"].map((x,i)=>
+    `<i style="left:${11+i*18}%;animation-delay:${i*55}ms">${x}</i>`).join("");
+}
+/* il trascinamento: pointer events, cosi' vale uguale per dito e per mouse.
+   Il velo e il timbro seguono il dito in continuo — non sono transizioni,
+   sono la posizione stessa resa visibile. */
 function bindSwipe(){
   const c=document.getElementById("qcard"); if(!c) return;
+  const q=s=>c.querySelector(s);
+  const tSi=q(".tint.t-si"), tNo=q(".tint.t-no"), tAd=q(".tint.t-ad");
+  const mSi=q(".stamp.t-si"), mNo=q(".stamp.t-no"), mAd=q(".stamp.t-ad");
+  const SOGLIA=96, CORSA=130;
   let sx=0,sy=0,dx=0,dy=0,giu=false;
-  c.addEventListener("pointerdown",e=>{ e.preventDefault(); giu=true; sx=e.clientX; sy=e.clientY; dx=dy=0;
+  const cl=v=>v<0?0:v>1?1:v;
+  function dipingi(){
+    const su=cl(-dy/CORSA), de=cl(dx/CORSA), si=cl(-dx/CORSA);
+    const adoro = su>de && su>si;
+    const a=adoro?su:0, b=adoro?0:de, n=adoro?0:si;
+    tAd.style.opacity=a; tSi.style.opacity=b; tNo.style.opacity=n;
+    mAd.style.opacity=a; mSi.style.opacity=b; mNo.style.opacity=n;
+    mAd.style.transform=`rotate(-4deg) scale(${.7+.3*a})`;
+    mSi.style.transform=`rotate(-13deg) scale(${.7+.3*b})`;
+    mNo.style.transform=`rotate(13deg) scale(${.7+.3*n})`;
+  }
+  c.addEventListener("pointerdown",e=>{ e.preventDefault(); giu=true;
+    sx=e.clientX; sy=e.clientY; dx=dy=0;
     try{ c.setPointerCapture(e.pointerId); }catch(_){}
     c.style.transition="none"; });
   c.addEventListener("pointermove",e=>{ if(!giu) return;
     dx=e.clientX-sx; dy=e.clientY-sy;
-    c.style.transform=`translate(${dx}px,${dy}px) rotate(${dx/24}deg)`;
-    c.classList.toggle("love", dy<-80);
-    c.classList.toggle("yes",  dy>=-80 && dx>60);
-    c.classList.toggle("nope", dy>=-80 && dx<-60); });
+    c.style.transform=`translate(${dx}px,${dy}px) rotate(${dx/26}deg)`;
+    dipingi(); });
   const su=()=>{ if(!giu) return; giu=false;
-    c.style.transition="transform .28s cubic-bezier(.2,.8,.2,1), opacity .28s";
+    const poco=RIDOTTO();
     let r=null;
-    if(dy<-90) r="adoro"; else if(dx>90) r="si"; else if(dx<-90) r="no";
-    if(r){
-      c.style.transform = r==="adoro" ? `translate(${dx}px,-130vh) rotate(${dx/24}deg)`
-        : `translate(${r==="si"?"130vw":"-130vw"},${dy}px) rotate(${dx/12}deg)`;
-      c.style.opacity=0;
-      setTimeout(()=>{ matchRisposta(r); renderModal(); },200);
-    } else { c.style.transform=""; c.classList.remove("yes","nope","love"); }
-    dx=dy=0; };
+    if(dy<-SOGLIA && -dy>Math.abs(dx)) r="adoro";
+    else if(dx>SOGLIA) r="si";
+    else if(dx<-SOGLIA) r="no";
+    if(r) volaVia(c,r,dx,dy,poco);
+    else { /* non ce l'ha fatta: torna al suo posto con un filo di rimbalzo */
+      c.style.transition="transform .3s cubic-bezier(0.34,1.56,0.64,1)";
+      c.style.transform=""; dx=dy=0; dipingi(); }
+  };
   c.addEventListener("pointerup",su); c.addEventListener("pointercancel",su);
+}
+/* la carta esce dalla parte in cui l'hai tirata: il percorso simmetrico
+   e' quello che rende il gesto ovvio senza spiegarlo */
+function volaVia(c,r,dx,dy,poco){
+  if(r==="adoro" && !poco) cuori();
+  c.style.transition = poco ? "opacity .18s linear"
+    : "transform .26s cubic-bezier(0.23,1,0.32,1), opacity .26s cubic-bezier(0.23,1,0.32,1)";
+  if(!poco) c.style.transform = r==="adoro"
+    ? `translate(${dx}px,-115vh) rotate(${dx/26}deg)`
+    : `translate(${r==="si"?"122vw":"-122vw"},${dy}px) rotate(${dx/11}deg)`;
+  c.style.opacity=0;
+  const attesa = poco ? 130 : (r==="adoro" ? 430 : 210);
+  setTimeout(()=>{ matchRisposta(r); renderView(); }, attesa);
+}
+function rispondiDaBottone(r){
+  const c=document.getElementById("qcard");
+  const poco=RIDOTTO();
+  if(!c){ matchRisposta(r); renderView(); return; }
+  const d = r==="si" ? 150 : r==="no" ? -150 : 0;
+  volaVia(c,r,d, r==="adoro"?-150:0, poco);
 }
 
 /* -- 7. il pannello del manager ------------------------------------------- */
@@ -1516,15 +1612,12 @@ document.addEventListener("click", e=>{
   const t = id => e.target.closest(`[data-${id}]`);
   const $m = () => document.getElementById("modal");
   let el;
-  if(el=t("mopen")){ e.stopPropagation(); S.modal=null; S.ring=null; S.nudge=null;
-    $m().dataset.mk=""; matchInit(); renderModal(); return; }
-  if(el=t("mclose")){ S.mk=null; $m().dataset.mk=""; renderModal(); return; }
-  if(el=t("mans")){ e.stopPropagation(); matchRisposta(el.dataset.mans); renderModal(); return; }
+  if(el=t("mrestart")){ e.stopPropagation(); S.mk=null; renderView(); return; }
+  if(el=t("mans")){ e.stopPropagation(); rispondiDaBottone(el.dataset.mans); return; }
   if(el=t("malt")){ e.stopPropagation();
-    S.mk.alt=(S.mk.alt+1)%Math.min(S.mk.out.length,5); renderModal(); return; }
+    S.mk.alt=(S.mk.alt+1)%Math.min(S.mk.out.length,5); renderView(); return; }
   if(el=t("madd")){ e.stopPropagation(); const from=el.getBoundingClientRect();
-    addTo(el.dataset.madd); S.mk=null; $m().dataset.mk="";
-    paint(true); flyToList(from); return; }
+    addTo(el.dataset.madd); S.mk=null; S.sec="home"; paint(); flyToList(from); return; }
   if(el=t("mgrclose")){ S.mgr=false; $m().dataset.mk=""; renderModal(); return; }
   if(el=t("mgrid")){ const id=el.dataset.mgrid;
     if(MARG[id]) delete MARG[id]; else MARG[id]=2;
@@ -1551,7 +1644,7 @@ document.addEventListener("click", e=>{
   if(el=t("closew")){ $w.classList.remove("on"); return; }
   if(el=t("back")){ S.prod=null; paint(); return; }
   if(el=t("cat")){ S.sec="carta"; S.cat = el.dataset.cat; S.q=""; S.prod=null; S.modal=null; S.ring=null; paint(); return; }
-  if(el=t("go")){ S.sec=el.dataset.go; S.cat=null; S.q=""; S.prod=null; S.modal=null; S.ring=null; S.conto=false; paint(); return; }
+  if(el=t("go")){ if(el.dataset.go==="match") S.mk=null; S.sec=el.dataset.go; S.cat=null; S.q=""; S.prod=null; S.modal=null; S.ring=null; S.conto=false; paint(); return; }
   if(el=t("qs")){ e.stopPropagation();
     const q=document.getElementById("qp");
     if(q) q.scrollLeft += parseInt(el.dataset.qs)*q.clientWidth;
@@ -1579,7 +1672,7 @@ document.addEventListener("click", e=>{
 
 if(new URLSearchParams(location.search).get("manager")==="1") S.mgr=true;
 paint();
-setInterval(()=>{ if(S.override===null) paint(); }, 60000);
+setInterval(()=>{ if(S.override===null && S.sec!=="match") paint(); }, 60000);
 </script>
 </body>
 </html>
