@@ -12,12 +12,12 @@
 :root{
   --bg:#FBFAF7; --surf:#F1E6D2; --surf2:#E4D2B0;
   --tx:#191714; --tx-dim:rgba(25,23,20,.58); --tx-faint:rgba(25,23,20,.4);
-  --line:rgba(25,23,20,.10); --acc:#2E4034; --acc-tx:#F1E6D2;
+  --line:rgba(25,23,20,.10); --acc:#2E4034; --acc-tx:#F1E6D2; --accrgb:46,64,52;
 }
 body.night{
   --bg:#1E1B17; --surf:#2C2822; --surf2:#38332B;
   --tx:#F1E6D2; --tx-dim:rgba(241,230,210,.62); --tx-faint:rgba(241,230,210,.45);
-  --line:rgba(241,230,210,.15); --acc:#C79E58; --acc-tx:#1E1B17;
+  --line:rgba(241,230,210,.15); --acc:#C79E58; --acc-tx:#1E1B17; --accrgb:199,158,88;
 }
 html,body{height:100%}
 html,body{height:100%;overflow:hidden;overscroll-behavior:none}
@@ -412,6 +412,22 @@ body.night .nrow{background:#38332B}
 .dkbar i{display:block;height:100%;background:var(--acc);border-radius:2px;
   transition:width .42s cubic-bezier(0.23,1,0.32,1)}
 
+/* ---- match: la scelta d'apertura ---- */
+.scwrap{flex:1;display:flex;flex-direction:column;gap:12px;margin-top:12px;min-height:0}
+.scel{flex:1;background:var(--surf);border-radius:22px;position:relative;overflow:hidden;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:9px;
+  cursor:pointer;box-shadow:0 10px 30px rgba(0,0,0,.14);
+  transition:transform .16s cubic-bezier(0.23,1,0.32,1);
+  animation:cardin .3s cubic-bezier(0.23,1,0.32,1) backwards}
+.scel:nth-child(2){animation-delay:70ms}
+.scel:active{transform:scale(.975)}
+@media(hover:hover) and (pointer:fine){ .scel:hover{transform:translateY(-2px)} }
+.scglow{position:absolute;left:50%;top:38%;width:230px;height:230px;margin:-115px 0 0 -115px;
+  border-radius:50%;background:radial-gradient(circle,rgba(var(--accrgb),.16),transparent 66%)}
+.scico{width:min(30vw,124px);height:auto;color:var(--acc);position:relative}
+.sct{font-variation-settings:'wdth' 68,'wght' 800;font-size:26px;letter-spacing:-.012em;position:relative}
+.scn{font-size:12.5px;color:var(--tx-faint);margin-top:-5px;position:relative}
+
 /* la pila: quante carte restano, viste da sotto */
 .dkstage{flex:1;position:relative;margin-top:12px;min-height:0}
 .gh{position:absolute;inset:0 0 34px 0;background:var(--surf);border-radius:22px;
@@ -498,7 +514,7 @@ body.night .nrow{background:#38332B}
 
 /* chi ha chiesto meno movimento tiene i colori e perde gli spostamenti */
 @media(prefers-reduced-motion:reduce){
-  .qcard,.ocard{animation:none}
+  .qcard,.ocard,.scel{animation:none}
   .burst{display:none}
   .dkn b.pop{animation:none}
   .dkbar i{transition:none}
@@ -1415,9 +1431,8 @@ const MAX_CARTE = 3;
 
 function matchInit(){
   const pool = apertoOra();
-  S.mk = { pool, tot:pool.length, punti:new Map(), fatte:[], dim:new Set(), q:null, out:null, alt:0 };
+  S.mk = { pool, tot:pool.length, punti:new Map(), fatte:[], dim:new Set(), q:null, out:null, alt:0, scelto:null };
   pool.forEach(p=>S.mk.punti.set(p.i,0));
-  matchNext();
 }
 /* quanto una domanda e' lontana dal dividere a meta' il mazzo di adesso */
 function taglio(q,pool){
@@ -1428,14 +1443,6 @@ function matchNext(){
   const m=S.mk;
   if(m.fatte.length>=MAX_CARTE || m.pool.length<=1){ matchFine(); return; }
   const liberi=DOM.filter(q=>!m.dim.has(q.dim));
-  /* La prima carta e' sempre quella che separa il mangiare dal bere. Chiesta
-     per ultima butterebbe via tutto quello che si e' appena scoperto sul resto:
-     rispondi «si» e il mazzo diventa di sole piadine, e le bollicine che
-     avevi adorato due carte prima non contano piu' niente. */
-  if(!m.fatte.length){
-    const c=liberi.find(q=>q.dim==="cosa");
-    if(c && taglio(c,m.pool)!==null){ m.q=c; return; }
-  }
   let best=null,bs=1e9;
   for(const q of liberi){ const s=taglio(q,m.pool); if(s!==null&&s<bs){bs=s;best=q;} }
   if(!best){ matchFine(); return; }
@@ -1474,6 +1481,7 @@ function matchFine(){
 /* la riga che dice perche', costruita dalle risposte date */
 function perche(p){
   const m=S.mk, ok=[];
+  if(m.scelto!==null) ok.push(m.scelto?"da mangiare":"da bere");
   m.fatte.forEach(f=>{
     const q=DOM.find(x=>x.id===f.q); if(!q||!ET[q.id]) return;
     const vuole=f.r!=="no";
@@ -1481,7 +1489,43 @@ function perche(p){
   });
   const coda="a quest’ora ci sta";
   if(!ok.length) return "Il meglio che c’è adesso al banco.";
-  return ok.slice(0,3).join(", ")+", e "+coda+".";
+  /* quattro: la scelta col dito piu' le tre domande. Con tre se ne perdeva una. */
+  return ok.slice(0,4).join(", ")+", e "+coda+".";
+}
+
+/* -- la scelta d'apertura: si tocca, non si scorre -------------------------
+   Sta fuori dal mazzo apposta. Chiesta come carta costava un terzo delle
+   domande per sapere una cosa che chi entra sa gia', e rispondendo "si"
+   buttava via tutto quello che si era scoperto prima. Disegnata a mano e
+   non con le emoji: e' la prima schermata, e le emoji cambiano faccia da
+   un telefono all'altro. */
+const SVG_CALICE = '<svg class="scico" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 9h30l-2.6 13.8A13 13 0 0 1 32 34a13 13 0 0 1-12.4-11.2L17 9Z"/><path d="M19.6 19.5h24.8" opacity=".45"/><path d="M32 34v18"/><path d="M21 54h22"/></svg>';
+const SVG_PIATTO = '<svg class="scico" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="32" cy="33" r="13"/><circle cx="32" cy="33" r="7.3" opacity=".45"/><path d="M9 9v8M13 9v8M17 9v8"/><path d="M9 17h8"/><path d="M13 17v38"/><path d="M51 9v46"/><path d="M51 9c4.2 3.4 4.2 12.6 0 16"/></svg>';
+
+function sceltaHTML(){
+  const m=S.mk, q=DOM.find(x=>x.dim==="cosa");
+  const nm=m.pool.filter(q.p).length, nb=m.pool.length-nm;
+  const voce=(k,ic,t,n)=>`<div class="scel" data-mscelta="${k}">
+      <div class="scglow"></div>${ic}
+      <div class="sct">${t}</div><div class="scn">${n} cose a quest’ora</div></div>`;
+  return `<div class="deck">
+    <div class="dkhead"><div class="dkn">Ti trovo io qualcosa</div>
+      <div class="dkstep">${band().n.toUpperCase()}</div></div>
+    <div class="scwrap">
+      ${voce("bere",SVG_CALICE,"Da bere",nb)}
+      ${voce("mangiare",SVG_PIATTO,"Da mangiare",nm)}
+    </div>
+    <div class="dkhint">Poi tre domande, e ti dico cosa prendere</div>
+  </div>`;
+}
+/* la scelta stringe il mazzo e pesa come un "si", ma non consuma una carta */
+function matchScegli(mangiare){
+  const m=S.mk, q=DOM.find(x=>x.dim==="cosa"), w=PESO.si;
+  m.pool.forEach(p=>m.punti.set(p.i, m.punti.get(p.i) + (q.p(p)===mangiare ? w : -w*0.55)));
+  const resta=m.pool.filter(p=>q.p(p)===mangiare);
+  if(resta.length>=3) m.pool=resta;
+  m.dim.add("cosa"); m.scelto=mangiare;
+  matchNext();
 }
 
 /* -- 6. il disegno --------------------------------------------------------- */
@@ -1490,6 +1534,7 @@ const RIDOTTO = () => window.matchMedia("(prefers-reduced-motion: reduce)").matc
 
 function deckHTML(){
   const m=S.mk;
+  if(m.scelto===null) return sceltaHTML();
   if(m.out) return deckOutHTML();
   const q=m.q, n=m.pool.length, sotto=MAX_CARTE-m.fatte.length-1, d=m.delta;
   const r=q.r||["No","Adoro","Sì"];
@@ -1635,6 +1680,7 @@ document.addEventListener("click", e=>{
   const t = id => e.target.closest(`[data-${id}]`);
   const $m = () => document.getElementById("modal");
   let el;
+  if(el=t("mscelta")){ e.stopPropagation(); matchScegli(el.dataset.mscelta==="mangiare"); renderView(); return; }
   if(el=t("mrestart")){ e.stopPropagation(); S.mk=null; renderView(); return; }
   if(el=t("mans")){ e.stopPropagation(); rispondiDaBottone(el.dataset.mans); return; }
   if(el=t("malt")){ e.stopPropagation();
