@@ -382,6 +382,94 @@ body.night .nrow{background:#38332B}
   box-shadow:0 1px 4px rgba(0,0,0,.3)}
 .badge.pop{animation:pop .45s cubic-bezier(.3,1.5,.5,1)}
 @keyframes pop{0%{transform:scale(1)}35%{transform:scale(1.55)}100%{transform:scale(1)}}
+
+/* ---- match: la scheda in home ---- */
+.mtile{display:flex;align-items:center;gap:12px;background:var(--acc);color:var(--acc-tx);
+  border-radius:12px;padding:13px 15px;margin-top:12px;cursor:pointer;
+  box-shadow:0 4px 14px rgba(0,0,0,.10)}
+.mtile .mi{font-size:19px;flex:none;line-height:1}
+.mtile .mt{font-variation-settings:'wdth' 74,'wght' 720;font-size:15.5px;line-height:1.1}
+.mtile .msub{font-size:12.5px;opacity:.68;margin-top:2px}
+.mtile .mgo{margin-left:auto;font-size:19px;opacity:.5;flex:none}
+
+/* ---- match: il mazzo ---- */
+#modal .sheet.deck{position:absolute;inset:0;left:0;right:0;top:0;bottom:0;border-radius:0;
+  background:var(--bg);display:flex;flex-direction:column;padding:12px 16px 16px;max-height:none;
+  user-select:none;-webkit-user-select:none;
+  /* niente slideup ereditato da .sheet: il pannello si ridisegna a ogni carta e
+     rifarebbe la salita otto volte. Sta fermo lui, si muovono le carte. */
+  animation:none}
+@keyframes cardin{from{opacity:0;transform:translateY(16px) scale(.97)}to{opacity:1;transform:none}}
+.qcard,.ocard{animation:cardin .24s cubic-bezier(.2,.8,.2,1)}
+.dkhead{display:flex;align-items:center;gap:10px;flex:none}
+.dkx{width:30px;height:30px;border-radius:50%;background:var(--surf);color:var(--tx);
+  display:flex;align-items:center;justify-content:center;font-size:14px;cursor:pointer;flex:none}
+.dkn{font-size:13.5px;color:var(--tx-dim);font-variation-settings:'wdth' 88,'wght' 520}
+.dkn b{color:var(--acc);font-variation-settings:'wdth' 80,'wght' 760;font-size:16px}
+.dkstep{margin-left:auto;font-size:11px;letter-spacing:.1em;color:var(--tx-faint)}
+.dkbar{height:3px;background:var(--line);border-radius:2px;overflow:hidden;margin-top:10px;flex:none}
+.dkbar i{display:block;height:100%;background:var(--acc);border-radius:2px;
+  transition:width .5s cubic-bezier(.2,.8,.2,1)}
+.dkstage{flex:1;position:relative;display:flex;align-items:center;justify-content:center;min-height:0}
+
+.qcard{position:absolute;left:0;right:0;background:var(--surf);border-radius:20px;
+  padding:30px 24px 26px;box-shadow:0 12px 34px rgba(0,0,0,.16);touch-action:none;
+  cursor:grab;user-select:none;will-change:transform;
+  min-height:206px;display:flex;flex-direction:column;justify-content:center}
+.qcard:active{cursor:grabbing}
+.qic{font-size:30px;line-height:1}
+.qd{font-variation-settings:'wdth' 70,'wght' 780;font-size:25px;line-height:1.08;margin-top:16px}
+.qn{font-size:14px;color:var(--tx-dim);margin-top:9px;line-height:1.45}
+.qtag{position:absolute;top:18px;right:18px;font-size:11.5px;letter-spacing:.12em;
+  padding:5px 10px;border-radius:5px;opacity:0;transition:opacity .12s;
+  font-variation-settings:'wdth' 88,'wght' 700}
+.qcard.yes .qtag.t-si{opacity:1}
+.qcard.nope .qtag.t-no{opacity:1}
+.qcard.love .qtag.t-ad{opacity:1}
+.qtag.t-si{background:#2E7D4F;color:#fff}
+.qtag.t-no{background:#A3402F;color:#fff;right:auto;left:18px}
+.qtag.t-ad{background:var(--acc);color:var(--acc-tx);left:50%;transform:translateX(-50%);right:auto}
+
+.dkhint{text-align:center;font-size:11.5px;color:var(--tx-faint);margin-top:10px;flex:none}
+.dkhint b{font-variation-settings:'wght' 700;color:var(--tx-dim)}
+.dkbtn{display:flex;gap:9px;margin-top:11px;flex:none}
+.dkbtn b{flex:1;text-align:center;padding:14px 8px;border-radius:10px;cursor:pointer;
+  font-variation-settings:'wdth' 76,'wght' 640;font-size:14.5px;
+  border:1px solid var(--line);background:var(--surf);color:var(--tx)}
+.dkbtn b.y{background:var(--acc);color:var(--acc-tx);border-color:transparent}
+.dkbtn b.up{background:none;color:var(--acc);border-color:var(--acc);flex:.85}
+
+/* ---- match: la risposta ---- */
+.ocard{position:relative;width:100%;background:var(--surf);border-radius:20px;
+  padding:22px;box-shadow:0 12px 34px rgba(0,0,0,.16);overflow:hidden;text-align:left}
+.ocard .oglow{position:absolute;right:-30px;top:-40px;width:220px;height:220px;border-radius:50%;
+  background:radial-gradient(circle,rgba(var(--g),.42),transparent 68%);filter:blur(12px)}
+.ocard img{position:absolute;right:6px;top:-6px;object-fit:contain;pointer-events:none}
+.olab{font-size:10.5px;letter-spacing:.14em;color:var(--tx-faint);position:relative}
+.onm{font-variation-settings:'wdth' 68,'wght' 800;font-size:29px;line-height:1.02;
+  margin-top:7px;position:relative;max-width:62%}
+.opz{font-variation-settings:'wdth' 82,'wght' 640;font-size:17px;color:var(--acc);
+  margin-top:7px;position:relative}
+.owhy{font-size:13.5px;line-height:1.5;color:var(--tx-dim);margin-top:13px;
+  position:relative;max-width:66%}
+.ovuoto{text-align:center;color:var(--tx-dim);font-size:15px;line-height:1.5;padding:0 12px}
+
+/* ---- match: il pannello del manager ---- */
+#modal .sheet.mgr{position:absolute;inset:0;border-radius:0;background:var(--bg);
+  display:flex;flex-direction:column;padding:12px 0 16px;max-height:none}
+.mgh{padding:0 16px;flex:none}
+.mgt{font-variation-settings:'wdth' 70,'wght' 780;font-size:21px;margin-top:8px}
+.mgs{font-size:13px;color:var(--tx-dim);margin-top:5px;line-height:1.45}
+.mgl{flex:1;overflow-y:auto;margin-top:12px;padding:0 16px}
+.mgc{font-size:10.5px;letter-spacing:.13em;color:var(--tx-faint);margin:16px 0 6px}
+.mgr-row{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--line)}
+.mgr-row .n{flex:1;font-size:14.5px;font-variation-settings:'wght' 540}
+.mgr-row .p{font-size:13px;color:var(--tx-faint)}
+.mgr-row .t{flex:none;font-size:11.5px;letter-spacing:.06em;padding:6px 11px;border-radius:6px;
+  border:1px solid var(--line);color:var(--tx-faint);cursor:pointer;
+  font-variation-settings:'wdth' 88,'wght' 620}
+.mgr-row.on .t{background:var(--acc);color:var(--acc-tx);border-color:transparent}
+.mgr-row.on .n{font-variation-settings:'wght' 700}
 </style>
 </head>
 <body>
@@ -807,6 +895,10 @@ function homeHTML(){
     <div class="carousel" id="car">${hot.map((p,k)=>cardHTML(p,hot.length,k)).join("")}</div>
   </div>
   ${hot.length>1?`<div class="hdots" id="hdots">${hot.map((_,x)=>`<i class="${x?'':'on'}"></i>`).join("")}</div>`:''}
+  <div class="mtile" data-mopen="1"><span class="mi">✨</span>
+    <div><div class="mt">Non sai cosa prendere?</div>
+    <div class="msub">Quattro domande e ti dico io</div></div>
+    <span class="mgo">›</span></div>
   <div class="sl2 hd2"><span>Oppure…</span>
     ${pages.length>1?`<span class="qnav"><b data-qs="-1" class="off">‹</b><b data-qs="1">›</b></span>`:''}</div>
   <div class="qbox">
@@ -1011,6 +1103,16 @@ function nudgeHTML(n){
 }
 function renderModal(){
   const m=document.getElementById("modal");
+  if(S.mgr){
+    if(m.dataset.mk!=="mgr"){ m.innerHTML=mgrHTML(); m.dataset.mk="mgr"; }
+    m.classList.add("on"); return;
+  }
+  if(S.mk){
+    const key = S.mk.out ? "out"+S.mk.alt : "q"+(S.mk.q?S.mk.q.id:"-")+S.mk.fatte.length;
+    if(m.dataset.mk!==key){ m.innerHTML=deckHTML(); m.dataset.mk=key; bindSwipe(); }
+    m.classList.add("on"); return;
+  }
+  m.dataset.mk="";
   if(S.nudge){
     if(!m.querySelector(".nudge")) m.innerHTML=nudgeHTML(S.nudge);
     m.classList.add("on"); return;
@@ -1150,10 +1252,288 @@ function flyToList(from){
   },600);
 }
 
+
+/* ============ MATCH ============ */
+/* Tre criteri, tre mestieri diversi — e l'ordine conta.
+   Il MOMENTO e' un cancello: quello che la fascia rifiuta non entra nel mazzo.
+   Le RISPOSTE fanno la selezione: ogni carta e' la domanda che taglia meglio a meta'.
+   Il MARGINE ordina soltanto i finalisti gia' a pari punteggio, e non entra mai
+   nella selezione: qualunque carta esca e' comunque una risposta giusta. */
+
+/* -- 1. il carattere di una voce ------------------------------------------
+   Non ci sono le ricette, quindi si deduce: la categoria porta quasi tutto il
+   segnale, il nome e la descrizione correggono. Dove sbaglia si corregge qui. */
+const RX = {
+  amaro: /amaro|bitter|campari|negroni|americano|crodino|j[äa]ger|montenegro|fernet|chinotto|sbagliato|aperol|arancione|rabarbaro/i,
+  dolce: /nutella|cioccolat|brioche|cornetto|muffin|crostata|limoncello|nocino|borghetti|macedonia|fragole|bellini|rossini|hugo|colada|cocco|ananas|succo|cedrata|fanta|aranciata|zucchero|purea|sciroppo|crema|miele|marmellata/i,
+  bolla: /prosecco|franciacorta|champagne|spumante|bollicin|valdobbiadene|trento|spritz|sbagliato|bellini|rossini|crodino|tonic|soda|cola|ginger|schweppes|fever|aranciata|chinotto|cedrata|spina|birra/i,
+  lungo: /tonic|soda|cola|ginger|succo|spremuta|acqua|mule|cuba|spritz|hugo|mojito|americano|collins|ice|freddo|birra|spina|frullato|shakerato|frapp/i,
+  caldo: /caff[eè]|cappuccino|latte|cioccolata|tisana|camomilla|orzo|ginseng|corretto|macchiato|marocchino/i,
+  analc: /analcolic|crodino|succo|spremuta|acqua|cedrata|chinotto|frullato|frapp/i,
+  gelo:  /freddo|shakerato|ghiacc|frapp|frullato/i
+};
+const C_FORTE = {gin:1,vodka:1,rum:1,tequila:1,whisky:1,cognac:1,grappe:1,liquori:1,cocktail:1};
+const C_VINO  = {calice:1,bianchi:1,rossi:1,bollicine:1};
+
+const _tr = new Map();
+function tratti(p){
+  if(_tr.has(p.i)) return _tr.get(p.i);
+  const t=new Set(), c=p.c, txt = p.n+" "+(p.d||"")+" "+[].concat(p.s||[]).join(" ");
+  if(C[c].t==="food"){ t.add("mangiare"); t.add("analcolico"); }
+  else {
+    if(c==="caffetteria"){ t.add("caldo"); t.add("analcolico"); }
+    if(c==="bibite"){ t.add("lungo"); t.add("fresco"); t.add("analcolico"); }
+    if(c==="birre"){ t.add("lungo"); t.add("fresco"); t.add("bolla"); }
+    if(c==="aperitivi") t.add("lungo");
+    if(C_FORTE[c]) t.add("forte");
+    if(C_VINO[c]) t.add("vino");
+    if(c==="bollicine") t.add("bolla");
+  }
+  if(c==="frutta"){ t.add("fresco"); t.add("dolce"); }
+  if(RX.amaro.test(txt)) t.add("amaro");
+  if(RX.dolce.test(txt)) t.add("dolce");
+  if(RX.bolla.test(txt)) t.add("bolla");
+  if(RX.caldo.test(txt)) t.add("caldo");
+  if(RX.analc.test(txt)) t.add("analcolico");
+  if(RX.lungo.test(txt)){ t.add("lungo"); t.delete("forte"); }
+  if(RX.gelo.test(txt)){ t.delete("caldo"); t.add("fresco"); }
+  if(t.has("lungo")||t.has("bolla")) t.add("fresco");
+  _tr.set(p.i,t); return t;
+}
+const ha = (p,x) => tratti(p).has(x);
+
+/* -- 2. il cancello del momento -------------------------------------------
+   W e' gia' nel file: i pesi categoria x fascia. Quello che la fascia corrente
+   segna in negativo esce dal mazzo, non viene retrocesso. E' la regola del
+   gin tonic alle dieci del mattino, e non costa un dato nuovo. */
+function apertoOra(){
+  const k=bandIdx();
+  return P.filter(p => !p.x && p.p!==0 && (W[p.c] ? (W[p.c][k]||0) >= 0 : true));
+}
+
+/* -- 3. il margine, che arriva da fuori -----------------------------------
+   Un oggetto solo, {id: peso}. Lo scrive il pannello ?manager=1, oppure
+   un'app esterna che passa ?margini=<json>. Il motore non sa chi gliel'ha dato. */
+function leggiMargini(){
+  let m={};
+  try{ m=JSON.parse(localStorage.getItem("roma.margini")||"{}"); }catch(e){}
+  const u=new URLSearchParams(location.search).get("margini");
+  if(u){ try{ m=Object.assign(m,JSON.parse(decodeURIComponent(u))); scriviMargini(m); }catch(e){} }
+  return m;
+}
+function scriviMargini(m){ try{ localStorage.setItem("roma.margini",JSON.stringify(m)); }catch(e){} }
+let MARG = leggiMargini();
+const marg = p => MARG[p.i] || 0;
+
+/* -- 4. le domande --------------------------------------------------------
+   Una domanda per dimensione: il mazzo non chiede due volte la stessa cosa. */
+const _pz = P.filter(p=>!p.x).map(price).filter(n=>typeof n==="number").sort((a,b)=>a-b);
+const SOGLIA_ALTA  = _pz.length ? _pz[Math.floor(_pz.length*.82)] : 99;
+const SOGLIA_BASSA = _pz.length ? _pz[Math.floor(_pz.length*.25)] : 3;
+
+const DOM = [
+ {id:"mangiare",  dim:"cosa",  ic:"\u{1F37D}", d:"Cerchi da mangiare?", n:"se no, pensiamo a cosa bere", p:x=>ha(x,"mangiare")},
+ {id:"analcolico",dim:"alcol", ic:"\u{1F6AB}", d:"Lo vuoi analcolico?",         n:"chi guida beve lo stesso",     p:x=>ha(x,"analcolico")},
+ {id:"caldo",     dim:"grado", ic:"☕",    d:"Qualcosa di caldo?",          n:"caffè, cioccolata, tisane", p:x=>ha(x,"caldo")},
+ {id:"lungo",     dim:"bocca", ic:"\u{1F9CA}", d:"Fresco e lungo?",             n:"di quelli che si bevono con calma", p:x=>ha(x,"lungo")||ha(x,"fresco")},
+ {id:"forte",     dim:"bocca", ic:"\u{1F943}", d:"Secco e deciso?",             n:"poco liquido, molto carattere", p:x=>ha(x,"forte")},
+ {id:"amaro",     dim:"gusto", ic:"\u{1F33F}", d:"Ti va l’amaro?",         n:"il bitter, quello che apre",    p:x=>ha(x,"amaro")},
+ {id:"dolce",     dim:"gusto", ic:"\u{1F36F}", d:"Qualcosa di dolce?",          n:"morbido, da coccola",           p:x=>ha(x,"dolce")},
+ {id:"bolla",     dim:"stile", ic:"\u{1FAE7}", d:"Con le bollicine?",           n:"prosecco, spina, tonica",       p:x=>ha(x,"bolla")},
+ {id:"coccola",   dim:"spesa", ic:"\u{1F48E}", d:"Ti vuoi coccolare?",          n:"la cosa buona, senza guardare", p:x=>{const v=price(x); return typeof v==="number" && v>=SOGLIA_ALTA;}},
+ {id:"veloce",    dim:"spesa", ic:"⚡",    d:"Qualcosa al volo?",           n:"poco tempo, poca spesa",        p:x=>{const v=price(x); return typeof v==="number" && v<=SOGLIA_BASSA;}}
+];
+const ET = {
+  mangiare:["da mangiare","da bere"], analcolico:["analcolico","alcolico"],
+  caldo:["caldo","freddo"], lungo:["fresco e lungo","corto"], forte:["secco e deciso","morbido"],
+  amaro:["amaro","niente amaro"], dolce:["dolce","non dolce"], bolla:["con le bolle","fermo"],
+  coccola:["una coccola","senza esagerare"], veloce:["svelto","con calma"]
+};
+
+/* -- 5. il motore ---------------------------------------------------------- */
+const PESO = { no:-1.1, si:1, adoro:2.4 };
+const MAX_CARTE = 4;
+
+function matchInit(){
+  const pool = apertoOra();
+  S.mk = { pool, tot:pool.length, punti:new Map(), fatte:[], dim:new Set(), q:null, out:null, alt:0 };
+  pool.forEach(p=>S.mk.punti.set(p.i,0));
+  matchNext();
+}
+/* quanto una domanda e' lontana dal dividere a meta' il mazzo di adesso */
+function taglio(q,pool){
+  const si=pool.filter(q.p).length;
+  return (si===0||si===pool.length) ? null : Math.abs(si*2-pool.length);
+}
+function matchNext(){
+  const m=S.mk;
+  if(m.fatte.length>=MAX_CARTE || m.pool.length<=1){ matchFine(); return; }
+  const liberi=DOM.filter(q=>!m.dim.has(q.dim));
+  /* La prima carta e' sempre quella che separa il mangiare dal bere. Chiesta
+     per ultima butterebbe via tutto quello che si e' appena scoperto sul resto:
+     rispondi «si» e il mazzo diventa di sole piadine, e le bollicine che
+     avevi adorato due carte prima non contano piu' niente. */
+  if(!m.fatte.length){
+    const c=liberi.find(q=>q.dim==="cosa");
+    if(c && taglio(c,m.pool)!==null){ m.q=c; return; }
+  }
+  let best=null,bs=1e9;
+  for(const q of liberi){ const s=taglio(q,m.pool); if(s!==null&&s<bs){bs=s;best=q;} }
+  if(!best){ matchFine(); return; }
+  m.q=best;
+}
+function matchRisposta(r){
+  const m=S.mk, q=m.q; if(!q||m.out) return;
+  const w=PESO[r];
+  m.pool.forEach(p=>m.punti.set(p.i, m.punti.get(p.i) + (q.p(p) ? w : -w*0.55)));
+  /* il mazzo si stringe davvero, ma non si svuota mai */
+  const vuole = r!=="no";
+  const resta = m.pool.filter(p=>q.p(p)===vuole);
+  if(resta.length>=3) m.pool=resta;
+  m.dim.add(q.dim); m.fatte.push({q:q.id,r}); m.q=null;
+  matchNext();
+}
+function matchFine(){
+  const m=S.mk, k=bandIdx();
+  const ord=[...m.pool].sort((a,b)=>m.punti.get(b.i)-m.punti.get(a.i));
+  if(!ord.length){ m.out=[]; return; }
+  const top=m.punti.get(ord[0].i);
+  /* i finalisti: tutti a un soffio dal migliore, quindi tutti risposte giuste.
+     Solo qui entra il margine, e solo per ordinarli. */
+  const pari=ord.filter(p=>m.punti.get(p.i)>=top-0.5);
+  const resto=ord.filter(p=>m.punti.get(p.i)<top-0.5);
+  pari.sort((a,b)=> marg(b)-marg(a)
+                 || m.punti.get(b.i)-m.punti.get(a.i)
+                 || ((W[b.c]||[])[k]||0)-((W[a.c]||[])[k]||0)
+                 /* a parita' di tutto vince la meno cara: se il manager non ha
+                    segnato niente, il locale non deve alzare il conto per caso.
+                    Chi voleva spendere l'ha gia' detto con la carta "coccola". */
+                 || (price(a)||0)-(price(b)||0));
+  m.out=[...pari,...resto];
+}
+/* la riga che dice perche', costruita dalle risposte date */
+function perche(p){
+  const m=S.mk, ok=[];
+  m.fatte.forEach(f=>{
+    const q=DOM.find(x=>x.id===f.q); if(!q||!ET[q.id]) return;
+    const vuole=f.r!=="no";
+    if(q.p(p)===vuole) ok.push(ET[q.id][vuole?0:1]);
+  });
+  const coda="a quest’ora ci sta";
+  if(!ok.length) return "Il meglio che c’è adesso al banco.";
+  return ok.slice(0,3).join(", ")+", e "+coda+".";
+}
+
+/* -- 6. il disegno --------------------------------------------------------- */
+function deckHTML(){
+  const m=S.mk;
+  if(m.out) return deckOutHTML();
+  const q=m.q, n=m.pool.length;
+  return `<div class="sheet deck">
+    <div class="dkhead"><b class="dkx" data-mclose="1">✕</b>
+      <div class="dkn"><b>${n}</b> ${n===1?"cosa possibile":"cose possibili"}</div>
+      <div class="dkstep">${m.fatte.length+1} / ${MAX_CARTE}</div></div>
+    <div class="dkbar"><i style="width:${Math.round(m.fatte.length/MAX_CARTE*100)}%"></i></div>
+    <div class="dkstage">
+      <div class="qcard" id="qcard">
+        <span class="qtag t-si">SÌ</span><span class="qtag t-no">NO</span><span class="qtag t-ad">ADORO</span>
+        <div class="qic">${q.ic}</div>
+        <div class="qd">${esc(q.d)}</div>
+        <div class="qn">${esc(q.n)}</div>
+      </div>
+    </div>
+    <div class="dkhint">Trascina la carta · <b>sinistra</b> no · <b>destra</b> sì · <b>su</b> adoro</div>
+    <div class="dkbtn"><b data-mans="no">No</b><b class="up" data-mans="adoro">Adoro</b><b class="y" data-mans="si">Sì</b></div>
+  </div>`;
+}
+function deckOutHTML(){
+  const m=S.mk, p=m.out[m.alt];
+  if(!p) return `<div class="sheet deck">
+    <div class="dkhead"><b class="dkx" data-mclose="1">✕</b><div class="dkn">Niente da fare</div></div>
+    <div class="dkstage"><div class="ovuoto">A quest’ora, con queste risposte, non resta niente.<br>Chiedi al banco: fanno prima loro.</div></div>
+    <div class="dkbtn"><b class="y" data-mopen="1">Riprova</b></div></div>`;
+  const f=foto(p.i), sz=SIZE[p.i]||[150,8], altri=Math.min(m.out.length,5);
+  return `<div class="sheet deck">
+    <div class="dkhead"><b class="dkx" data-mclose="1">✕</b>
+      <div class="dkn">Ecco cosa ti darei</div>
+      <div class="dkstep">${m.alt+1} / ${altri}</div></div>
+    <div class="dkstage"><div class="ocard" style="--g:${GLOW[p.i]||'150,150,150'}">
+      ${f?`<div class="oglow"></div><img src="${f}" alt="" style="height:${sz[0]}px">`:''}
+      <div class="olab">${(marg(p)?"DALLA CASA":"PER TE")}</div>
+      <div class="onm">${esc(p.n)}</div>
+      <div class="opz">${priceLabel(p)}</div>
+      <div class="owhy">${esc(perche(p))}</div>
+    </div></div>
+    <div class="dkbtn"><b data-malt="1">Un altro</b><b class="y" data-madd="${p.i}">Aggiungi</b></div>
+  </div>`;
+}
+/* il trascinamento: pointer events, cosi' vale uguale per dito e per mouse */
+function bindSwipe(){
+  const c=document.getElementById("qcard"); if(!c) return;
+  let sx=0,sy=0,dx=0,dy=0,giu=false;
+  c.addEventListener("pointerdown",e=>{ e.preventDefault(); giu=true; sx=e.clientX; sy=e.clientY; dx=dy=0;
+    try{ c.setPointerCapture(e.pointerId); }catch(_){}
+    c.style.transition="none"; });
+  c.addEventListener("pointermove",e=>{ if(!giu) return;
+    dx=e.clientX-sx; dy=e.clientY-sy;
+    c.style.transform=`translate(${dx}px,${dy}px) rotate(${dx/24}deg)`;
+    c.classList.toggle("love", dy<-80);
+    c.classList.toggle("yes",  dy>=-80 && dx>60);
+    c.classList.toggle("nope", dy>=-80 && dx<-60); });
+  const su=()=>{ if(!giu) return; giu=false;
+    c.style.transition="transform .28s cubic-bezier(.2,.8,.2,1), opacity .28s";
+    let r=null;
+    if(dy<-90) r="adoro"; else if(dx>90) r="si"; else if(dx<-90) r="no";
+    if(r){
+      c.style.transform = r==="adoro" ? `translate(${dx}px,-130vh) rotate(${dx/24}deg)`
+        : `translate(${r==="si"?"130vw":"-130vw"},${dy}px) rotate(${dx/12}deg)`;
+      c.style.opacity=0;
+      setTimeout(()=>{ matchRisposta(r); renderModal(); },200);
+    } else { c.style.transform=""; c.classList.remove("yes","nope","love"); }
+    dx=dy=0; };
+  c.addEventListener("pointerup",su); c.addEventListener("pointercancel",su);
+}
+
+/* -- 7. il pannello del manager ------------------------------------------- */
+function mgrHTML(){
+  const ordine=Object.keys(C).filter(c=>P.some(p=>p.c===c&&!p.x));
+  const n=Object.keys(MARG).filter(k=>MARG[k]>0).length;
+  return `<div class="sheet mgr">
+    <div class="mgh"><div class="dkhead"><b class="dkx" data-mgrclose="1">✕</b>
+      <div class="dkn"><b>${n}</b> ${n===1?"voce spinta":"voci spinte"}</div></div>
+      <div class="mgt">Cosa conviene spingere</div>
+      <div class="mgs">Segna le voci ad alta marginalità. Non cambiano quello che il
+        cliente riceve: a parità di gradimento, escono queste.</div></div>
+    <div class="mgl">${ordine.map(c=>`<div class="mgc">${C[c].n.toUpperCase()}</div>`+
+      catItems(c).map(p=>`<div class="mgr-row ${marg(p)?'on':''}" data-mgrid="${p.i}">
+        <div class="n">${esc(p.n)}</div><div class="p">${priceLabel(p)}</div>
+        <div class="t">${marg(p)?"spinta":"spingi"}</div></div>`).join("")).join("")}</div>
+  </div>`;
+}
+
 /* ============ EVENTI ============ */
 document.addEventListener("click", e=>{
   const t = id => e.target.closest(`[data-${id}]`);
+  const $m = () => document.getElementById("modal");
   let el;
+  if(el=t("mopen")){ e.stopPropagation(); S.modal=null; S.ring=null; S.nudge=null;
+    $m().dataset.mk=""; matchInit(); renderModal(); return; }
+  if(el=t("mclose")){ S.mk=null; $m().dataset.mk=""; renderModal(); return; }
+  if(el=t("mans")){ e.stopPropagation(); matchRisposta(el.dataset.mans); renderModal(); return; }
+  if(el=t("malt")){ e.stopPropagation();
+    S.mk.alt=(S.mk.alt+1)%Math.min(S.mk.out.length,5); renderModal(); return; }
+  if(el=t("madd")){ e.stopPropagation(); const from=el.getBoundingClientRect();
+    addTo(el.dataset.madd); S.mk=null; $m().dataset.mk="";
+    paint(true); flyToList(from); return; }
+  if(el=t("mgrclose")){ S.mgr=false; $m().dataset.mk=""; renderModal(); return; }
+  if(el=t("mgrid")){ const id=el.dataset.mgrid;
+    if(MARG[id]) delete MARG[id]; else MARG[id]=2;
+    scriviMargini(MARG);
+    el.classList.toggle("on", !!MARG[id]);
+    const b=el.querySelector(".t"); if(b) b.textContent = MARG[id] ? "spinta" : "spingi";
+    const c=document.querySelector(".sheet.mgr .dkn b");
+    if(c) c.textContent = Object.keys(MARG).filter(k=>MARG[k]>0).length;
+    return; }
   if(el=t("add")){ e.stopPropagation();
     const from=el.getBoundingClientRect();
     addTo(el.dataset.add);
@@ -1197,6 +1577,7 @@ document.addEventListener("click", e=>{
     return; }
 });
 
+if(new URLSearchParams(location.search).get("manager")==="1") S.mgr=true;
 paint();
 setInterval(()=>{ if(S.override===null) paint(); }, 60000);
 </script>
