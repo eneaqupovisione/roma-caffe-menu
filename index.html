@@ -431,13 +431,14 @@ body.night .nrow{background:#38332B}
 @keyframes cardin{from{opacity:0;transform:scale(.95) translateY(7px)}to{opacity:1;transform:none}}
 
 /* il velo che tinge la carta mentre la tiri */
-.tint{position:absolute;inset:0;opacity:0;pointer-events:none}
+.tint{position:absolute;inset:0;opacity:0;pointer-events:none;z-index:2}
 .tint.t-si{background:linear-gradient(200deg,rgba(46,125,79,.34),rgba(46,125,79,.05))}
 .tint.t-no{background:linear-gradient(160deg,rgba(163,64,47,.34),rgba(163,64,47,.05))}
 .tint.t-ad{background:linear-gradient(0deg,rgba(199,158,88,.40),rgba(199,158,88,.04))}
 
 /* il timbro */
-.stamp{position:absolute;top:26px;font-size:29px;letter-spacing:.05em;padding:6px 15px;
+.stamp{position:absolute;z-index:3;top:24px;font-size:21px;letter-spacing:.02em;padding:6px 13px;
+  max-width:62%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
   border-radius:9px;border:3px solid currentColor;opacity:0;pointer-events:none;
   font-variation-settings:'wdth' 84,'wght' 820;will-change:transform,opacity}
 /* il timbro sta dalla parte OPPOSTA al verso in cui tiri: trascinando a
@@ -445,9 +446,14 @@ body.night .nrow{background:#38332B}
    non lo vedrebbe nessuno. E' il motivo per cui su Tinder stanno cosi'. */
 .stamp.t-si{left:26px;color:#2E7D4F;transform:rotate(-13deg) scale(.7)}
 .stamp.t-no{right:26px;color:#A3402F;transform:rotate(13deg) scale(.7)}
-.stamp.t-ad{top:36%;left:50%;margin-left:-80px;color:var(--acc);transform:rotate(-4deg) scale(.7)}
+.stamp.t-ad{top:34%;left:50%;color:var(--acc);transform:translateX(-50%) rotate(-4deg) scale(.7)}
 
-.qic{font-size:44px;line-height:1;position:relative}
+/* l'emoji occupa la carta: esce dal flusso e riempie la parte alta,
+   il testo resta appoggiato sul fondo */
+.qic{position:absolute;z-index:1;left:0;right:0;top:4%;bottom:30%;pointer-events:none;
+  transition:opacity .12s linear;
+  display:flex;align-items:center;justify-content:center;line-height:1;
+  font-size:min(46vw,200px);filter:drop-shadow(0 14px 30px rgba(0,0,0,.28))}
 .qd{font-variation-settings:'wdth' 68,'wght' 800;font-size:34px;line-height:1.04;
   margin-top:20px;position:relative;letter-spacing:-.012em}
 .qn{font-size:15.5px;color:var(--tx-dim);margin-top:12px;line-height:1.45;position:relative}
@@ -463,8 +469,9 @@ body.night .nrow{background:#38332B}
 .dkhint{text-align:center;font-size:11.5px;color:var(--tx-faint);margin-top:11px;flex:none}
 .dkhint b{font-variation-settings:'wght' 700;color:var(--tx-dim)}
 .dkbtn{display:flex;gap:9px;margin-top:10px;flex:none}
-.dkbtn b{flex:1;text-align:center;padding:15px 8px;border-radius:11px;cursor:pointer;
-  font-variation-settings:'wdth' 76,'wght' 640;font-size:15px;
+.dkbtn b{flex:1;text-align:center;padding:11px 7px;border-radius:11px;cursor:pointer;
+  min-height:52px;display:flex;align-items:center;justify-content:center;line-height:1.16;
+  font-variation-settings:'wdth' 74,'wght' 640;font-size:13.5px;
   border:1px solid var(--line);background:var(--surf);color:var(--tx);
   transition:transform .13s cubic-bezier(0.23,1,0.32,1)}
 .dkbtn b:active{transform:scale(.95)}
@@ -1306,8 +1313,8 @@ function flyToList(from){
 const RX = {
   amaro: /amaro|bitter|campari|negroni|americano|crodino|j[äa]ger|montenegro|fernet|chinotto|sbagliato|aperol|arancione|rabarbaro/i,
   dolce: /nutella|cioccolat|brioche|cornetto|muffin|crostata|limoncello|nocino|borghetti|macedonia|fragole|bellini|rossini|hugo|colada|cocco|ananas|succo|cedrata|fanta|aranciata|zucchero|purea|sciroppo|crema|miele|marmellata/i,
-  bolla: /prosecco|franciacorta|champagne|spumante|bollicin|valdobbiadene|trento|spritz|sbagliato|bellini|rossini|crodino|tonic|soda|cola|ginger|schweppes|fever|aranciata|chinotto|cedrata|spina|birra/i,
-  lungo: /tonic|soda|cola|ginger|succo|spremuta|acqua|mule|cuba|spritz|hugo|mojito|americano|collins|ice|freddo|birra|spina|frullato|shakerato|frapp/i,
+  bolla: /prosecco|franciacorta|champagne|spumante|bollicin|valdobbiadene|trento|spritz|sbagliato|bellini|rossini|crodino|tonic|soda|\bcola\b|ginger|schweppes|fever|aranciata|chinotto|cedrata|\bspina\b|birra/i,
+  lungo: /tonic|soda|\bcola\b|ginger|succo|spremuta|acqua|mule|cuba|spritz|hugo|mojito|americano|collins|\bice\b|freddo|birra|\bspina\b|frullato|shakerato|frapp/i,
   caldo: /caff[eè]|cappuccino|latte|cioccolata|tisana|camomilla|orzo|ginseng|corretto|macchiato|marocchino/i,
   analc: /analcolic|crodino|succo|spremuta|acqua|cedrata|chinotto|frullato|frapp/i,
   gelo:  /freddo|shakerato|ghiacc|frapp|frullato/i
@@ -1372,16 +1379,28 @@ const SOGLIA_ALTA  = _pz.length ? _pz[Math.floor(_pz.length*.82)] : 99;
 const SOGLIA_BASSA = _pz.length ? _pz[Math.floor(_pz.length*.25)] : 3;
 
 const DOM = [
- {id:"mangiare",  dim:"cosa",  ic:"\u{1F37D}", d:"Cerchi da mangiare?", n:"se no, pensiamo a cosa bere", p:x=>ha(x,"mangiare")},
- {id:"analcolico",dim:"alcol", ic:"\u{1F6AB}", d:"Lo vuoi analcolico?",         n:"chi guida beve lo stesso",     p:x=>ha(x,"analcolico")},
- {id:"caldo",     dim:"grado", ic:"☕",    d:"Qualcosa di caldo?",          n:"caffè, cioccolata, tisane", p:x=>ha(x,"caldo")},
- {id:"lungo",     dim:"bocca", ic:"\u{1F9CA}", d:"Fresco e lungo?",             n:"di quelli che si bevono con calma", p:x=>ha(x,"lungo")||ha(x,"fresco")},
- {id:"forte",     dim:"bocca", ic:"\u{1F943}", d:"Secco e deciso?",             n:"poco liquido, molto carattere", p:x=>ha(x,"forte")},
- {id:"amaro",     dim:"gusto", ic:"\u{1F33F}", d:"Ti va l’amaro?",         n:"il bitter, quello che apre",    p:x=>ha(x,"amaro")},
- {id:"dolce",     dim:"gusto", ic:"\u{1F36F}", d:"Qualcosa di dolce?",          n:"morbido, da coccola",           p:x=>ha(x,"dolce")},
- {id:"bolla",     dim:"stile", ic:"\u{1FAE7}", d:"Con le bollicine?",           n:"prosecco, spina, tonica",       p:x=>ha(x,"bolla")},
- {id:"coccola",   dim:"spesa", ic:"\u{1F48E}", d:"Ti vuoi coccolare?",          n:"la cosa buona, senza guardare", p:x=>{const v=price(x); return typeof v==="number" && v>=SOGLIA_ALTA;}},
- {id:"veloce",    dim:"spesa", ic:"⚡",    d:"Qualcosa al volo?",           n:"poco tempo, poca spesa",        p:x=>{const v=price(x); return typeof v==="number" && v<=SOGLIA_BASSA;}}
+ /* r: le tre risposte di QUESTA domanda, nell'ordine [no, adoro, si].
+    "Sì/No" è la lingua dell'interfaccia; al banco si risponde con la cosa. */
+ {id:"mangiare",  dim:"cosa",  ic:"🍽️", d:"Cerchi da mangiare?", n:"se no, pensiamo a cosa bere",
+  r:["Da bere","Ho fame","Da mangiare"], p:x=>ha(x,"mangiare")},
+ {id:"analcolico",dim:"alcol", ic:"🚫", d:"Lo vuoi analcolico?", n:"chi guida beve lo stesso",
+  r:["Ci sta l’alcol","Guido io","Analcolico"], p:x=>ha(x,"analcolico")},
+ {id:"caldo",     dim:"grado", ic:"☕️", d:"Qualcosa di caldo?", n:"caffè, cioccolata, tisane",
+  r:["Freddo","Bollente","Caldo"], p:x=>ha(x,"caldo")},
+ {id:"lungo",     dim:"bocca", ic:"🧊", d:"Fresco e lungo?", n:"di quelli che si bevono con calma",
+  r:["Corto","Muoio di sete","Lungo"], p:x=>ha(x,"lungo")||ha(x,"fresco")},
+ {id:"forte",     dim:"bocca", ic:"🥃", d:"Secco e deciso?", n:"poco liquido, molto carattere",
+  r:["Morbido","Bello forte","Secco"], p:x=>ha(x,"forte")},
+ {id:"amaro",     dim:"gusto", ic:"🌿", d:"Ti va l’amaro?", n:"il bitter, quello che apre",
+  r:["Niente amaro","Amo l’amaro","Amaro"], p:x=>ha(x,"amaro")},
+ {id:"dolce",     dim:"gusto", ic:"🍯", d:"Qualcosa di dolce?", n:"morbido, da coccola",
+  r:["Non dolce","Molto dolce","Dolce"], p:x=>ha(x,"dolce")},
+ {id:"bolla",     dim:"stile", ic:"🫧", d:"Con le bollicine?", n:"prosecco, spina, tonica",
+  r:["Fermo","Tante bolle","Con le bolle"], p:x=>ha(x,"bolla")},
+ {id:"coccola",   dim:"spesa", ic:"💎", d:"Ti vuoi coccolare?", n:"la cosa buona, senza guardare",
+  r:["Il giusto","Festeggio","Mi coccolo"], p:x=>{const v=price(x); return typeof v==="number" && v>=SOGLIA_ALTA;}},
+ {id:"veloce",    dim:"spesa", ic:"⚡", d:"Qualcosa al volo?", n:"poco tempo, poca spesa",
+  r:["Con calma","Di corsa","Al volo"], p:x=>{const v=price(x); return typeof v==="number" && v<=SOGLIA_BASSA;}}
 ];
 const ET = {
   mangiare:["da mangiare","da bere"], analcolico:["analcolico","alcolico"],
@@ -1473,6 +1492,7 @@ function deckHTML(){
   const m=S.mk;
   if(m.out) return deckOutHTML();
   const q=m.q, n=m.pool.length, sotto=MAX_CARTE-m.fatte.length-1, d=m.delta;
+  const r=q.r||["No","Adoro","Sì"];
   return `<div class="deck">
     <div class="dkhead">
       <div class="dknwrap">
@@ -1487,15 +1507,15 @@ function deckHTML(){
       ${sotto>0?'<div class="gh g1"></div>':''}
       <div class="qcard" id="qcard">
         <div class="tint t-si"></div><div class="tint t-no"></div><div class="tint t-ad"></div>
-        <span class="stamp t-si">SÌ</span><span class="stamp t-no">NO</span><span class="stamp t-ad">ADORO</span>
+        <span class="stamp t-si">${esc(r[2])}</span><span class="stamp t-no">${esc(r[0])}</span><span class="stamp t-ad">${esc(r[1])}</span>
         <div class="qic">${q.ic}</div>
         <div class="qd">${esc(q.d)}</div>
         <div class="qn">${esc(q.n)}</div>
       </div>
       <div class="burst" id="burst"></div>
     </div>
-    <div class="dkhint">Trascina · <b>sinistra</b> no · <b>destra</b> sì · <b>su</b> adoro</div>
-    <div class="dkbtn"><b data-mans="no">No</b><b class="up" data-mans="adoro">Adoro</b><b class="y" data-mans="si">Sì</b></div>
+    <div class="dkhint">Trascina la carta, oppure tocca</div>
+    <div class="dkbtn"><b data-mans="no">${esc(r[0])}</b><b class="up" data-mans="adoro">${esc(r[1])}</b><b class="y" data-mans="si">${esc(r[2])}</b></div>
   </div>`;
 }
 function deckOutHTML(){
@@ -1533,7 +1553,7 @@ function cuori(){
 function bindSwipe(){
   const c=document.getElementById("qcard"); if(!c) return;
   const q=s=>c.querySelector(s);
-  const tSi=q(".tint.t-si"), tNo=q(".tint.t-no"), tAd=q(".tint.t-ad");
+  const tSi=q(".tint.t-si"), tNo=q(".tint.t-no"), tAd=q(".tint.t-ad"), ico=q(".qic");
   const mSi=q(".stamp.t-si"), mNo=q(".stamp.t-no"), mAd=q(".stamp.t-ad");
   const SOGLIA=96, CORSA=130;
   let sx=0,sy=0,dx=0,dy=0,giu=false;
@@ -1544,9 +1564,12 @@ function bindSwipe(){
     const a=adoro?su:0, b=adoro?0:de, n=adoro?0:si;
     tAd.style.opacity=a; tSi.style.opacity=b; tNo.style.opacity=n;
     mAd.style.opacity=a; mSi.style.opacity=b; mNo.style.opacity=n;
-    mAd.style.transform=`rotate(-4deg) scale(${.7+.3*a})`;
+    mAd.style.transform=`translateX(-50%) rotate(-4deg) scale(${.7+.3*a})`;
     mSi.style.transform=`rotate(-13deg) scale(${.7+.3*b})`;
     mNo.style.transform=`rotate(13deg) scale(${.7+.3*n})`;
+    /* l'emoji e' grande quanto la carta: se restasse piena coprirebbe il
+       timbro. Si ritira man mano che ti decidi, e il verdetto prende il posto. */
+    ico.style.opacity = 1 - .72*Math.max(a,b,n);
   }
   c.addEventListener("pointerdown",e=>{ e.preventDefault(); giu=true;
     sx=e.clientX; sy=e.clientY; dx=dy=0;
